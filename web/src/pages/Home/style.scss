@@ -1,0 +1,49 @@
+.app-manage {
+  .ant-progress-bg {
+    height: 12px !important;
+  }
+  .ant-menu-item-active,
+  .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item:hover,
+  .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item:hover,
+  .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu:hover,
+  .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item-active,
+  .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu-active,
+  .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item-open,
+  .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu-open,
+  .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item-selected,
+  .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu-selected {
+    border-bottom: none !important;
+  }
+  .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item {
+    margin: 0 6px;
+  }
+  .ant-menu-horizontal > .ant-menu-item,
+  .ant-menu-horizontal > .ant-menu-submenu {
+    border-bottom: none !important;
+  }
+  .selected {
+    background-color: rgb(222, 232, 243);
+  }
+  .card {
+    border-radius: 6px;
+    height: 100%;
+    .ant-card-body {
+      height: 100%;
+    }
+  }
+}
+.app-templates {
+  .selected {
+    /*background: rgba(0, 0, 0, 0.04);*/
+    border: 1px solid #0677ff;
+  }
+  .normal {
+    border: 1px solid #ddddde;
+  }
+}
+.ant-alert-with-description{
+  align-items: center;
+}
+.install-alert .ant-alert-action{
+  height: 100%;
+}

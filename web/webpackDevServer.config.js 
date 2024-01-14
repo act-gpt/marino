@@ -1,0 +1,18 @@
+module.exports = {
+    verbose: true, 
+    http2: true,
+    before(app) {
+        // This lets us open files from the runtime error overlay.
+        app.use((req, res, net) =>{
+            res.set('X-Server', 'web')
+            next()
+        });
+  
+        app.use(`/chat/:id`, (req, res) =>{
+            res.sendFile(__dirname + 'public/chat.html')
+        })
+    },
+    rewrites: [
+        //{ from: /^\/chat\//, to: '/chat.html' },
+    ],
+}

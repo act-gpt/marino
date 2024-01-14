@@ -1,0 +1,246 @@
+@charset "utf-8";
+
+$heavyColor: #1b2029;
+$mediumColor: #353e48;
+$grayColor: #a7afbd;
+$mainColor: #0677FF;
+$textColor: #333;
+
+html,
+body {
+  background: white;
+  color: $textColor;
+  font-feature-settings: normal;
+  min-height: 100vh;
+}
+
+/* reset */
+body,
+div,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+pre,
+code,
+form,
+fieldset,
+legend,
+input,
+textarea,
+p,
+blockquote,
+th,
+td,
+hr,
+button,
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  margin: 0;
+  padding: 0;
+}
+
+body,
+button,
+input,
+select,
+textarea {
+}
+
+input,
+select,
+textarea {
+  font-size: 100%;
+}
+
+/* remove table cell's padding */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* ie bug：th text-align bug */
+th {
+  text-align: inherit;
+}
+
+/* set border */
+fieldset,
+img {
+  border: none;
+}
+
+iframe {
+  display: block;
+}
+
+/* reset border under firefox */
+abbr,
+acronym {
+  border: none;
+  font-variant: normal;
+}
+
+/* del style */
+del {
+  text-decoration: line-through;
+}
+
+address,
+caption,
+cite,
+code,
+dfn,
+em,
+th,
+var {
+  font-style: normal;
+  font-weight: 500;
+}
+
+/* remove list style */
+ol,
+ul {
+  list-style: none;
+}
+
+/* align left */
+caption,
+th {
+  text-align: left;
+}
+
+/* custom h* element */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: 100%;
+  font-weight: 500;
+}
+
+h1 {
+  font-size: 2.6rem;
+}
+
+h2 {
+  font-size: 2.4rem;
+}
+
+h3 {
+  font-size: 2rem;
+}
+
+q:before,
+q:after {
+  content: '';
+}
+
+sub,
+sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sup {
+  top: -0.5em;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+ins,
+a {
+  text-decoration: none;
+}
+
+a:focus,
+*:focus {
+  outline: none;
+}
+
+/* clear fix */
+.clearfix:before,
+.clearfix:after {
+  content: '';
+  display: block;
+}
+
+.clearfix:after {
+  clear: both;
+  overflow: hidden;
+}
+
+.clearfix {
+  zoom: 1;
+  /* for ie6 & ie7 */
+}
+
+.clear {
+  clear: both;
+  display: block;
+  font-size: 0;
+  height: 0;
+  line-height: 0;
+  overflow: hidden;
+}
+
+.hide {
+  display: none;
+}
+
+.block {
+  display: block;
+}
+
+.fl,
+.fr {
+  display: inline;
+}
+
+.fl {
+  float: left;
+}
+
+.fr {
+  float: right;
+}
+
+
+.desc {
+  color: rgba(0, 0, 0, 0.45);
+}
+
+.ant-form-vertical .ant-form-item-label > label {
+  width: 100% !important;
+}
+
+.basic .ant-collapse-header {
+  background: #fff !important;
+}
+
+.text-nowrap {
+  white-space: nowrap!important;
+}

@@ -1,0 +1,65 @@
+.ProseMirror {
+    min-height: 20rem;
+    max-height: 50rem;
+    overflow-y: scroll;
+    > * + * {
+      margin-top: 0.75em;
+    }
+  
+    ul,
+    ol {
+      padding: 0 1rem;
+    }
+
+    p {
+        margin: 1.2em 0;
+    }
+    p.is-editor-empty:first-child::before {
+        color: #adb5bd;
+        content: attr(data-placeholder);
+        float: left;
+        height: 0;
+        pointer-events: none;
+    }
+  }
+  
+  
+  .bubble-menu {
+    display: flex;
+    background-color:#fafafa;
+    padding: 0.3rem;
+    border-radius: 0.5rem;
+    button {
+      border: none;
+      background: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding: 0 0.5rem;
+      opacity: 0.6;
+      &:hover,
+      &.is-active {
+        opacity: 1;
+      }
+    }
+  }
+  
+  .floating-menu {
+    display: flex;
+    background-color: #fafafa;
+    padding: 0.3rem;
+    border-radius: 0.5rem;
+  
+    button {
+      border: none;
+      background: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding: 0 0.5rem;
+      opacity: 0.6;
+  
+      &:hover,
+      &.is-active {
+        opacity: 1;
+      }
+    }
+  }

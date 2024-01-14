@@ -1,0 +1,28 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+node_modules
+.pnp
+.pnp.js
+
+# testing
+web/coverage
+
+# production
+build
+web/build
+etc/config.yaml
+
+# misc
+go.work.sum
+.DS_Store
+.env
+.env.*
+.npmrc
+test_data
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.idea
+package-lock.json
+yarn.lock

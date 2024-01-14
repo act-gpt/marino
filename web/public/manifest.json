@@ -1,0 +1,22 @@
+{
+  "short_name": "Marino",
+  "name": "Marino",
+  "description": "Custom AI using your data for anything from anywhere",
+  "icons": [
+    {
+      "src": "/circle.png",
+        "sizes": "any",
+        "type": "image/png"
+    },
+    { 
+      "purpose": "maskable",
+      "src": "/maskable.png",
+        "sizes": "any",
+        "type": "image/png"
+    }
+  ],
+  "start_url": "/?utm_source=pwa",
+  "display": "standalone",
+  "theme_color": "#fff",
+  "background_color": "#fff"
+}

@@ -1,0 +1,5 @@
+export const SET_USER = 'SET_USER'
+export const SET_BOT = 'SET_BOT'
+export const SET_APP = 'SET_APP'
+export const SET_CONFIG = 'SET_CONFIG'
+export const MENU_TOGGLE = 'MENU_TOGGLE'

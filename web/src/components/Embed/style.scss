@@ -1,0 +1,329 @@
+$grey-0: #808080;
+$grey-1: #cdd8ec;
+$grey-2: #f4f7f9;
+$grey-3: #b5b5b5;
+$white: #fff;
+$fullscreen-break: 800px;
+
+:root {
+  --main-agw-bg-color: #3552e6;
+}
+
+@mixin animation($delay, $duration, $animation) {
+  -webkit-animation-delay: $delay;
+  -webkit-animation-duration: $duration;
+  -webkit-animation-name: $animation;
+  -webkit-animation-fill-mode: forwards;
+
+  -moz-animation-delay: $delay;
+  -moz-animation-duration: $duration;
+  -moz-animation-name: $animation;
+  -moz-animation-fill-mode: forwards;
+
+  animation-delay: $delay;
+  animation-duration: $duration;
+  animation-name: $animation;
+  animation-fill-mode: forwards;
+}
+
+@mixin keyframes($animation-name) {
+  @-webkit-keyframes #{$animation-name} {
+    @content;
+  }
+
+  @-moz-keyframes #{$animation-name} {
+    @content;
+  }
+
+  @keyframes #{$animation-name} {
+    @content;
+  }
+}
+
+@include keyframes(rotation-lr) {
+  from {
+    transform: rotate(-90deg);
+  }
+  to {
+    transform: rotate(0);
+  }
+}
+
+@include keyframes(rotation-rl) {
+  from {
+    transform: rotate(90deg);
+  }
+  to {
+    transform: rotate(0);
+  }
+}
+
+@include keyframes(slide-in) {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@include keyframes(slide-out) {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+@mixin message-bubble($color) {
+  background-color: $color;
+  border-radius: 10px;
+  max-width: 215px;
+  padding: 15px;
+  text-align: left;
+}
+
+// Full screen mixins
+
+@mixin widget-container-fs {
+  height: 100vh;
+  margin: 0;
+  max-width: none;
+  width: 100%;
+}
+
+@mixin header-fs {
+  border-radius: 0;
+  flex-shrink: 0;
+  position: relative;
+}
+
+@mixin title-fs {
+  padding: 0 0 15px 0;
+}
+
+@mixin close-button-fs {
+  background-color: var(--main-agw-bg-color);
+  border: 0;
+  display: block;
+  position: absolute;
+  right: 10px;
+  top: 20px;
+  width: 40px;
+}
+
+@mixin close-fs {
+  width: 20px;
+  height: 20px;
+}
+
+@mixin messages-container-fs {
+  height: 100%;
+  max-height: none;
+}
+
+@mixin conversation-container-fs {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+@mixin launcher-fs {
+  bottom: 0;
+  margin: 20px;
+  position: fixed;
+  right: 0;
+}
+.__act__gpt__embed {
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  margin: 0 20px 20px 0;
+  position: fixed;
+  right: 0;
+  z-index: 9999;
+  width: max-content;
+  height: max-content;
+}
+.__agw-launcher {
+  @include animation(0, 0.5s, slide-in);
+  align-self: flex-end;
+  background-color: var(--main-agw-bg-color);
+  border: 0;
+  border-radius: 50%;
+  box-shadow: 0px 2px 10px 1px $grey-3;
+  height: 60px;
+  width: 60px;
+  margin-top: 10px;
+  cursor: pointer;
+  &:focus {
+    outline: none;
+  }
+}
+
+.__agw-open-launcher {
+  @include animation(0, 0.5s, rotation-rl);
+}
+
+.__agw-close-launcher {
+  width: 20px;
+  @include animation(0, 0.5s, rotation-lr);
+}
+
+@media screen and (max-width: 800px) {
+  .__agw-launcher {
+    @include launcher-fs;
+  }
+
+  .__agw-hide-sm {
+    display: none;
+  }
+}
+
+.__agw-conversation-container {
+  border-radius: 10px;
+  box-shadow: 0px 2px 10px 1px $grey-3;
+  position: relative;
+  height: min(704px, 100% - 40px);
+  min-height: 80px;
+  width: 400px;
+  max-height: 704px;
+
+  &.active {
+    opacity: 1;
+    transform: translateY(0px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  &.hidden {
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+}
+
+.__agw-conversation-resizer {
+  cursor: col-resize;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 5px;
+}
+
+.__agw-full-screen {
+  .__agw-conversation-container {
+    @include conversation-container-fs;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .__agw-conversation-container {
+    @include conversation-container-fs;
+  }
+}
+
+.__agw-messages-container {
+  background-color: $white;
+  height: 50vh;
+  max-height: 480px;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 0 0 10px 10px;
+  .cs-message--incoming {
+    text-align: left;
+  }
+  .cs-message--outgoing {
+    text-align: right;
+  }
+}
+
+.__agw-full-screen {
+  .__agw-messages-container {
+    @include messages-container-fs;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .__agw-messages-container {
+    @include messages-container-fs;
+  }
+}
+
+.__agw-conversation-container {
+  .__agw-header {
+    background-color: var(--main-agw-bg-color);
+    border-radius: 10px 10px 0 0;
+    color: $white;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    padding: 15px 0 25px;
+  }
+  .cs-main-container {
+    font-size: 14px !important;
+  }
+  .__agw-title {
+    font-size: 24px;
+    margin: 0;
+    padding: 15px 0;
+    color: $white;
+  }
+
+  .__agw-close-button {
+    display: none;
+  }
+
+  .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    margin-right: 10px;
+    vertical-align: middle;
+  }
+}
+
+.__agw-full-screen {
+  .__agw-header {
+    @include header-fs;
+  }
+
+  .__agw-title {
+    @include title-fs;
+  }
+
+  .__agw-close-button {
+    @include close-button-fs;
+  }
+
+  .__agw-close {
+    @include close-fs;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .__agw-conversation-container {
+    .__agw-header {
+      @include header-fs;
+    }
+
+    .__agw-title {
+      @include title-fs;
+    }
+
+    .__agw-close-button {
+      @include close-button-fs;
+    }
+
+    .__agw-close {
+      @include close-fs;
+    }
+  }
+}

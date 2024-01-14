@@ -1,0 +1,38 @@
+.modal-container {
+  & .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  & .modal-header .title {
+    display: block;
+    font-size: 22px;
+    font-weight: 600;
+  }
+  & .modal-header .icon {
+    display: inline-block;
+    font-weight: 300;
+    font-size: 18px;
+    cursor: pointer;
+  }
+  & .modal-content {
+    margin-top: 20px;
+  }
+  & .modal-footer {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+  }
+  & .modal-footer .btn {
+    width: 90px;
+  }
+  & .modal-footer .space {
+    width: 30px;
+  }
+}
+
+// 修改默认样式
+.ant-modal-content {
+  background-color: #f5f8ff;
+  border-radius: 10px;
+}

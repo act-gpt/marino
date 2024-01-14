@@ -1,0 +1,42 @@
+.login {
+  background-size: cover;
+
+  h1 {
+    font-size: 80px;
+    text-align: center;
+  }
+  p {
+    font-size: 120%;
+  }
+  .model {
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .login-form {
+      padding: 2rem;
+      box-shadow: 0px 2px 13px 0px rgba(228, 228, 228, 0.6);
+      border-radius: 5px;
+      background-color: #fff;
+      width: 40rem;
+
+      .input {
+        margin: 10px 0 20px 0;
+      }
+      .ant-input,
+      .ant-btn {
+        font-size: 18px;
+        height: auto;
+      }
+      .ant-form-item-control {
+        margin-bottom: 0.5rem;
+      }
+      .login-form-button {
+        margin-top: 10px;
+        width: 100%;
+      }
+    }
+  }
+}

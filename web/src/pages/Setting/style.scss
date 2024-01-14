@@ -1,0 +1,29 @@
+.slider-wrapper {
+    position: relative;
+    /*padding: 0px 24px;*/
+}
+.slider-wrapper .anticon:first-child {
+    left: 0;
+}
+
+.slider-wrapper .anticon:last-child {
+    right: 0;
+}
+
+.slider-wrapper .anticon {
+    position: absolute;
+    top: -2px;
+    width: 16px;
+    height: 16px;
+    color: rgba(0, 0, 0, 0.25);
+    font-size: 16px;
+    line-height: 1;
+    text-align:  center;;
+}
+
+.slider-wrapper .ant-slider .ant-slider-handle::after {
+    box-shadow: 0 0 0 2px #0677FF;
+}
+.slider-wrapper .ant-slider .ant-slider-track {
+    background-color: #0677FF;
+}

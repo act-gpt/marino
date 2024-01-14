@@ -1,0 +1,166 @@
+
+
+.ant-tree {
+  .ant-tree-node-content-wrapper {
+    z-index: 5;
+    width:100%;
+    width: 100%;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    padding-right: 2px;
+    position: relative;
+
+  }
+  .node{
+    display: flex;
+    flex: 1 1;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 100%;
+    width: 100%;
+    align-items: center;
+  }
+  
+  .ant-tree-switcher{
+    line-height: 40px;
+  }
+  .node-name{
+    max-width: 180px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .btn-wrapper{
+    display: block;
+    text-align: center;
+  }
+  .ant-tree-node-selected{
+    background-color: transparent !important;
+    color: #3370ff;
+    
+  }
+  .ant-tree-node-selected .ant-tree-title{
+    background-color: #eff4ff;
+  }
+
+  .ant-tree-node-selected:before{
+    position: absolute;
+    right: 0;
+    left: 0;
+    height: 30px;
+    transition: all .3s;
+    content: "";
+    border-right: 3px solid #3370ff;
+    z-index: 1;
+  }
+}
+
+.ant-tree .ant-tree-title{
+  flex: 1 1;
+    width: 100%;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    min-width: 0;
+    z-index: 2;
+}
+
+.ant-tree {
+  & > li:last-child {
+    padding-bottom: 0;
+  }
+
+  &.ant-tree-block-node  .ant-tree-node-content-wrapper {
+    width: calc(100% - 18px);
+  }
+
+  &.ant-tree-show-line li:not(:last-child) {
+    &:before {
+      z-index: 3;
+      left: 5.5px;
+      margin: 26px 0 0;
+      height: calc(100% - 26px);
+    }
+  }
+  position: relative;
+  padding-left: 15px;
+}
+
+.ant-tree {
+  &.ant-tree-node-content-wrapper {
+    width: 100%;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    padding-right: 2px;
+    position: relative;
+
+    &.ant-tree-node-selected {
+      &:before {
+        position: absolute;
+        right: 0;
+        left: 0;
+        height: 30px;
+        -webkit-transition: all 0.3s;
+        transition: all 0.3s;
+        content: '';
+     
+        z-index: 1;
+      }
+    }
+
+    &.ant-tree-switcher_close {
+      z-index: 4;
+    }
+
+    .ant-tree-title {
+      flex: 1;
+      width: 100%;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      min-width: 0;
+      z-index: 2;
+    }
+  }
+}
+
+.ant-tree-treenode{
+  width: 100%
+}
+.anticon.anticon-file {
+  display: none;
+}
+
+
+
+
+.classification-box {
+  display: flex;
+  flex-direction: column;
+  & .list-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    .list-wapper {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      .line {
+        display: inline-block;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background-color: rgb(37, 33, 33);
+      }
+      .name {
+        display: inline-block;
+        color: black;
+        margin-left: 10px;
+      }
+    }
+  }
+}

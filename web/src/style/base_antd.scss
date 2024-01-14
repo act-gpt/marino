@@ -1,0 +1,52 @@
+/*
+.ant-layout-sider {
+  background: #35385d !important;
+}
+
+.ant-menu.ant-menu-dark,
+.ant-menu-dark .ant-menu-sub,
+.ant-menu.ant-menu-dark .ant-menu-sub {
+  background: #35385d !important;
+}
+
+// 修改选择标签的颜色
+.ant-menu-dark.ant-menu-dark:not(.ant-menu-horizontal) .ant-menu-item-selected {
+  background-color: #545771 !important;
+}
+*/
+.ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+  background-color: #f5f8ff !important;
+}
+.ant-form-item .ant-mentions,
+.ant-form-item textarea.ant-input {
+  height: 100% !important;
+}
+
+.ant-menu-item .ant-menu-item-icon,
+.ant-menu-submenu-title .ant-menu-item-icon,
+.ant-menu-item .anticon,
+.ant-menu-submenu-title .anticon {
+  font-size: 16px;
+}
+
+.ant-layout-sider,
+.ant-menu.ant-menu-dark,
+.ant-menu-dark .ant-menu-sub,
+.ant-menu.ant-menu-dark .ant-menu-sub {
+  color: #333 !important;
+  background: #fff !important;
+}
+.ant-menu-vertical > .ant-menu-item {
+  height: 48px !important;
+}
+
+.ant-layout-sider-collapsed.aside .name{
+  display: none;
+}
+.ant-upload-list-item{
+  margin-top: 16px !important;
+}
+.ant-form-item-with-help {
+  transition: none;
+  margin-bottom: 36px;
+}

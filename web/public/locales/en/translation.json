@@ -1,0 +1,490 @@
+{
+  "title": "Marino | Custom AI using your data",
+  "ok": "Confirm",
+  "continue": "Continue",
+  "discord": "Discord",
+  "cancel": "Cancel",
+  "create": "Create",
+  "back": "Back",
+  "save_success": "Save Successful",
+  "save_change": "Save Changes",
+  "required": "Required",
+  "abandon_edit": "Discard Changes?",
+  "abandon_edit_desc": "After confirming, unsaved content will be lost.",
+  "online": "Online",
+  "offline": "Offline",
+  "copy_success": "Copy Successful",
+  "process_fail": "Processing Failed",
+  "back_to_home": "Back to Home",
+  "contact_title": "Contact Information",
+  "index": {
+    "intro": "Marino, Your Digital Assistant",
+    "intro_subtitle": "LLM-based digital assistant, unlocking your potential with AI",
+    "intro_button": "Create Digital Assistants"
+  },
+  "codes": {
+    "400": "Invalid Request.",
+    "401": "Authentication Failed. Unauthorized to Perform this Operation.",
+    "403": "You Do Not Have Permission to Access this Resource.",
+    "404": "Sorry, the Page You Are Looking for Is Missing. Please Try Refreshing or Going Back to the Homepage.",
+    "500": "Something Went Wrong, but Don't Worry. Please Retry.",
+    "6001": "Invalid Account. Please Contact an Advisor.",
+    "6002": "Something Went Wrong. Invalid Parameters.",
+    "6003": "Something Went Wrong. Request is Invalid.",
+    "6013": "Accessing Too Frequently. Please Try Again Later.",
+    "7000": "Over Account's Quota",
+    "7001": "As an AI chatbot, my mission is to provide the most useful information to users. However, I do not comment on any political, religious, racial, or gender beliefs, endorsements, or criticisms, as these issues can be controversial and divisive due to differences in time, location, and culture. We should respect everyone's beliefs and perspectives and maintain an attitude of respect, tolerance, and inclusivity to build a harmonious, friendly, and equal social environment.",
+    "7002": "I'm sorry, but as an AI chatbot, I do not provide any violent or terror-related content. Please use appropriate language and let's maintain a healthy, positive, and respectful online environment.",
+    "7003": "I'm sorry, but as an AI chatbot, my mission is to provide the most useful information to users. However, I do not comment on any political, religious, racial, or gender beliefs, endorsements, or criticisms. Please use appropriate language and let's maintain a healthy, positive, and respectful online environment.",
+    "7004": "I'm sorry, but as an AI chatbot, I do not provide any content related to pornography, obscenity, or other immoral and illegal content. Please use appropriate language and let's maintain a healthy, positive, and respectful online environment."
+  },
+  "dropdown": {
+    "edit": "Edit",
+    "detail": "Detail",
+    "delete": "Delete"
+  },
+  "header": {
+    "online": "You are currently: Online",
+    "offline": "You are currently: Offline",
+    "modal_title": "Offline",
+    "modal_desc": "Once offline, you won't receive new tickets. The administrator will be notified of your status.",
+    "language": "Languages",
+    "logout": "Log Out",
+    "features": "New Features",
+    "overview": "Features Overview",
+    "quickstart": "Quick Start Guide",
+    "tip": "Promotional Tips",
+    "contact": "Contact Us"
+  },
+  "menu": {
+    "chat": "Playground",
+    "faq": "Knowledge",
+    "publish": "Publish",
+    "data": "Data",
+    "setting": "Settings",
+    "messages": "History"
+  },
+  "setup": {
+    "test": "Test",
+    "checked": "Enabled",
+    "unchecked": "Disabled",
+    "loading": "Verifying Request...",
+    "message_title": "Connection Verification",
+    "success_desc": "Service Verification Successful",
+    "message_retry": "Please avoid frequent verification attempts. You can try again later.",
+    "failure_desc": "Service Verification Failed",
+    "tips": [
+      "Before using this system, carefully read the instructions and configure system parameters.",
+      "The system is pre-configured with ACT GPT's vector service. Please visit the <a target='_blank' href='{{url}}'>ACT GPT</a> to activate the service before use."
+    ],
+    "email": "Email Configuration",
+    "resend_token": "Token",
+    "resend_token_help": "This email service uses Resend's service, please visit resend web site to get the token.",
+    "resend_form": "Sender of the Email",
+    "org": "Organization",
+    "org_name": "Organization Name",
+    "db": "Database",
+    "address": "Database Address",
+    "address_help": "If the default connection fails, please consult a professional. Example： postgres://actgpt:actgpt@0.0.0.0:5432/actgpt",
+    "redis": "Redis Cache",
+    "redis_help": "Default is empty. Please consult a professional before modifying settings.",
+    "dimension": "Vector Model",
+    "dimension_help": "Professional settings. Please select the default setting and activate the service; once chosen, settings cannot be modified.",
+    "banner": [
+      "Please acquire the database service and vector models from the <a target='_blank' href='{{ url }}'>Act GPT</a>, which also includes vector database services.",
+      "After use it's service, you can choose the vector model of OpenAI."
+    ],
+    "emd_host": "Vector Host Address",
+    "emd_api": "Vector API Path",
+    "emd_model": "Vector Model",
+    "emd_key": "Access Key",
+    "moderation": "Content Safety Check",
+    "mdt": "Enable Check",
+    "mdt_help": "Default is disabled; enabling requires acquiring a content safety check plugin.",
+    "mtda": "Check Interface API Address",
+    "actgpt": "ACT GPT Settings",
+    "actgpt_key": "Access Key",
+    "actgpt_alert": [
+      "Please visit the <a target='_blank' href='{{url}}'>ACT GPT</a> to obtain the access password."
+    ],
+    "baidu": "Baidu Settings",
+    "baidu_key": "Baidu API Key",
+    "baidu_secret": "Baidu Secret Key",
+    "baidu_alert": [
+      "Visit the Baidu Cloud console for app access creation and enter the API Key and Secret Key above."
+    ],
+    "openai": "OpenAI Settings",
+    "openai_type": "Service Provider",
+    "openai_key": "API Access Key",
+    "openai_host": "API Domain",
+    "openai_host_help": "Applicable for OpenAI compatible interfaces or Azure. Do not modify default settings if using OpenAI.",
+    "openai_v": "Version",
+    "openai_v_hp": "Azure API Version",
+    "openai_v_help": "This is the model version configuration for Azure. Consult a professional before making changes.",
+    "openal_alert": [
+      "OpenAI models are not registered in the China region."
+    ],
+    "services": {
+      "db": "Check Database Connection",
+      "actgpt": "Check ACT GPT Settings",
+      "baidu": "Check Baidu Settings",
+      "openai": "Check OpenAI Settings",
+      "embedding": "Check Vector Service Settings"
+    },
+    "result_title": "System settings are prepared and currently being configured",
+    "back": "Back",
+    "save": "Launch",
+    "success_title": "Launch successed",
+    "success_save": ["The system has been started.", "Username: admin, temporary password: you@actgpt. ","Clicking close will guide you to log in to the system."],
+    "success_failured": "System settings failed. Please try again.",
+    "step1": "Basic Information",
+    "step2": "Model Configuration",
+    "step3": "Complete Configuration",
+    "step4": "System Configuration",
+    "normal": "Normal",
+    "advanced": "Advanced",
+    "noworry": ", you can configure it later.",
+    "normal_tips": [
+      "The vector service of ACT GPT is configured by default. Please go to the <a target='_blank' href='{{ url }}'>ACT GPT Console</a> to activate the service before using it."
+    ]
+  },
+  "publish": {
+    "page": {
+      "title": "Webpage",
+      "subtitle": "Chat directly with your robot using this link",
+      "copy": "Copy",
+      "view": "View"
+    },
+    "js": {
+      "title": "JS Embed",
+      "subtitle": "Can be added anywhere on your website with just one line of code for robot embedding",
+      "copy": "Copy",
+      "view": "View",
+      "modal": {
+        "title": "Embed into Website",
+        "copy": "copy",
+        "card_title": "Embed the following code into your webpage.",
+        "tip": "If you need to associate users from your system, please include the <code>user</code> identifier."
+      }
+    },
+    "api": {
+      "title": "API",
+      "subtitle": "Use API to connect your application",
+      "view": "API Secret",
+      "document": "Document",
+      "url": "https://www.postman.com/lunar-capsule-709150/workspace/actgpt/collection/19025417-712f274b-b505-4523-8cac-a634a800c8b8",
+      "modal": {
+        "title": "API Secret",
+        "id": "API",
+        "bot_id": "API URL",
+        "token": "Secret Key",
+        "bot_token": "The value of TOKEN in the API documentation"
+      }
+    },
+    "footer": {
+      "comingsoon": "Coming Soon",
+      "api": "API Integration",
+      "whatsapp": "WhatsApp",
+      "facebook": "Facebook",
+      "wechat_mp": "Official Account",
+      "wechat_group": "WeChat Group Chat",
+      "wechat_program": "Mini Program",
+      "wechat_custome": "WeChat Customer Service",
+      "qq": "QQ Integration"
+    }
+  },
+  "message": {
+    "columns": {
+      "question": "Question",
+      "answer": "Answer",
+      "feedback": "Feedback",
+      "feedback_desc": "Dislike / Like",
+      "tokens": "Tokens",
+      "lft": "Waiting",
+      "llm": "Processing",
+      "time": "Creation Time"
+    }
+  },
+  "setting": {
+    "profile": "Profile",
+    "description": "Description",
+    "welcome": "Welcome Message",
+    "welcome_title": "Welcome Statement to Start the Conversation",
+    "prompt": "Role Definition",
+    "prompt_title": "The robot will determine its specific responsibilities based on the defined content. Please input important and accurate requirements.",
+    "prompt_extra": "Adding double @ symbols allows you to add a question example",
+    "type": "Application Type",
+    "type_title": "Chat Mode",
+    "type_on": "Enable Knowledge Base Application",
+    "type_on_title": "Utilize domain-specific knowledge entered to primarily respond by identifying information in the knowledge base. Widely used in knowledge bases, customer support, marketing, etc.",
+    "type_off": "Enable Smart Chat Application",
+    "type_off_title": "Knowledge base Q&A will be disabled. Leverage the language model's excellent answering ability. Widely used for copywriting optimization, story creation, translation, etc.",
+    "modal": {
+      "title": "Upgrading Account",
+      "comingsoon": "Coming Soon",
+      "desc": ""
+    },
+    "tour": {
+      "ref1_title": "What is an Application Model",
+      "ref1_desc": "Try moving your mouse here",
+      "ref2_title": "Select the Number of Document Segments",
+      "ref2_desc": "Click here to try it out",
+      "ref3_title": "How to Define Roles",
+      "ref3_desc": "Define the robot's roles, tasks, guidelines, and speaking style here",
+      "ref4_title": "Choose Reply Diversity",
+      "ref4_desc": "Try dragging the dot left or right to adjust it."
+    },
+    "contexts": [
+      "Do Not Use the Knowledge Base",
+      "A Paragraph of Text",
+      "Two Paragraphs of Text",
+      "Three Paragraphs of Text",
+      "Four Paragraphs of Text",
+      "Five Paragraphs of Text",
+      "Six Paragraphs of Text"
+    ],
+    "histories": [
+      "Do Not Use Chat Records",
+      "One Conversation",
+      "Two Conversations",
+      "Three Conversations",
+      "Four Conversations",
+      "Five Conversations",
+      "Six Conversations"
+    ],
+    "temperatures": {
+      "0": "Very Precise",
+      "25": "Fairly Precise",
+      "50": "Balanced Between Precision and Imagination",
+      "75": "Exercising Imagination",
+      "100": "Full of Imagination"
+    },
+    "model_tip": [
+      "Choose a model that suits your needs. Compared to the 8K model, the 4K model has less knowledge available.",
+      "* Wenxin Yiyuan is one of China's most well-known models and has a comprehensive knowledge system.",
+      "* ACT-GTP is a knowledge-based optimization model that is relatively affordable and not registered in China.",
+      "* OpenAI is a world-leading model provider and not registered in China."
+    ],
+    "alert_tip": [
+      "Using OpenAI services must comply with their terms of use and relevant laws and regulations and must not be used for illegal purposes.",
+      "In accordance with the requirements of China's 'Interim Measures for the Administration of Generative Artificial Intelligence Services,' please do not provide public services in China using unregistered models."
+    ],
+    "labels": {
+      "baidu": "Baidu",
+      "actgpt": "ACT GPT",
+      "openai": "Open AI"
+    },
+    "alias": {
+      "completions": "ERNIE-Bot",
+      "ernie_bot_8k": "ERNIE-Bot",
+      "completions_pro": "ERNIE-Bot 4.0",
+      "act-gpt-001": "ActGPT-001",
+      "act-gpt-002": "ActGPT-002",
+      "act-gpt-003": "ActGPT-003",
+      "gpt-3.5-turbo": "GPT-3.5 Turbo",
+      "gpt-4-turbo": "GPT-4 Turbo",
+      "gpt-4-1106-preview": "GPT-4 Turbo",
+      "gpt-3.5-turbo-1106": "GPT-3.5 Turbo"
+    },
+    "model": "Application Model",
+    "token_help": "For models larger than 4K, the value can be increased. It is recommended to use the system default parameters or smaller values for the knowledge base using a 4K model.",
+    "contexts_info": "Number of Document Segments",
+    "contexts_title": "The Number of Document Segments is used to help the large model understand the relevant content of the knowledge base.",
+    "histories_info": "Number of Conversation Records",
+    "histories_title": "The Number of Conversation Records is used to help the large model understand what was discussed in previous conversations.",
+    "score_info": "Document Diversity",
+    "score_title": "As the value increases, it's possible that the large model understands fewer source documents, but the matched document knowledge becomes more accurate.",
+    "temperature_info": "Reply Diversity",
+    "temperature_title": "The smaller the value, the more precise; The larger the value, the more random and diverse replies become, making them more creative."
+  },
+  "chat": {
+    "welcome": "Welcome to the bot. Please input something to query.",
+    "input_placeholder": "Type a message. Shift + enter for a new line.",
+    "not_found": "Bot is not available",
+    "contact": "Please contact us",
+    "detail": "Detail",
+    "reminder": "Reminder",
+    "watermark": ""
+  },
+  "knowledge": {
+    "folder": {
+      "all": "All Folders",
+      "edit": "Edit Name",
+      "add": "Add Subfolder",
+      "delete": "Delete"
+    },
+    "tour": {
+      "ref1_title": "Add Folder",
+      "ref1_desc": "Organize the content structure here."
+    },
+    "dialog": {
+      "delete_title": "Delete Folder",
+      "delete_desc": "Are you sure you want to delete this folder? Deleting a folder will also delete any associated knowledge items.",
+      "add_title": "Add Subfolder",
+      "edit_title": "Edit Name",
+      "clable": "Folder",
+      "cname": "Folder Name",
+      "cname_palceholder": "Enter a subfolder name"
+    },
+    "selected": "Selected {{num}} Files",
+    "success": "{{file}} Uploaded Successfully",
+    "error": "Unable to Upload {{file}}",
+    "add": "Add Knowledge",
+    "single": "Single Knowledge",
+    "multi": "Multiple Knowledges",
+    "export": "Export",
+    "upload": "Upload Knowledge",
+    "upload_title": "Local File",
+    "support_file": "Supported files: doc, docx, pdf, txt, and markdown",
+    "upload_hint": "You can also drag and drop your files here",
+    "upload_exists": "The following knowledge items are found in the system. By uploading, you may overwrite them. Confirm?",
+    "modify_folder": "Modify Folder",
+    "modify_folder_alert": "Please select a folder.",
+    "knowledge_p": "Enter complete knowledge with appropriate markings to help your users better understand",
+    "answer_p": "Enter your answer",
+    "relate_p": "Add related words or business jargon commonly used by users. Press \"Enter\" to confirm.",
+    "relate_alert": "AI bots can match FAQs based on semantic similarity. There's no need to add words already included in the knowledge. Instead, add related words or business jargon. For example, add \"OTP\" as a related word for the knowledge \"Why can't I receive a verification code via SMS?\"",
+    "table": {
+      "title": "Knowledge Details",
+      "name": "Knowledge",
+      "folder_name": "Folder",
+      "relate": "Related Words",
+      "status": "Status",
+      "status_desc": "Training limited: Each individual bot has training resource limitations. If this doesn't meet your requirements, please contact our consultant to upgrade your account. Free account: 6 times/day, Basic edition: 50 times/day, Premium edition: 200 times/day.",
+      "status_list": [
+        "Failed",
+        "Success",
+        "Training...",
+        "Content Disallowed",
+        "Training Limited"
+      ],
+      "create": "Created at",
+      "update": "Last Update",
+      "delete_title": "Delete Knowledge",
+      "delete_desc": "Do you want to delete these items?"
+    },
+    "tiptap": {
+      "placeholder": "Input here",
+      "bold": "Bold",
+      "italic": "Italic",
+      "clean": "Clean Style",
+      "h1": "H1",
+      "h2": "H2",
+      "h4": "H4",
+      "list": "List"
+    }
+  },
+  "home": {
+    "search_tip": "Search AI Bot",
+    "create_desk": "Create AI Bot",
+    "chat": "Chat",
+    "welcome": "Create an AI bot",
+    "desk_template": "Choose a Template",
+    "create": "Create",
+    "delete": "Delete",
+    "template_required": "Please select a template",
+    "result_title": "Bot Created Successfully",
+    "result_description": "You can configure your bot or add some documents",
+    "myapp": "AI Bots",
+    "invoke": "Remaining Times",
+    "premium": "Premium Edition",
+    "premium_desc": "Our team is dedicated to serving you. If you have any questions, please contact our advisor, who will respond to you as soon as possible.",
+    "free": "Free Edition",
+    "free_desc": "The trial quota is provided for testing purposes only. Please contact our advisor to purchase additional quota before the trial quota is exhausted.",
+    "basic": "Basic Edition",
+    "basic_desc": "If you encounter any usage-related issues, please contact our advisor, who will be committed to assisting you.",
+    "unlimited": "Usage is Unlimited",
+    "install": "Install App",
+    "install_desc": "Using the app can provide a better experience.",
+    "open_document": "Open Document",
+    "contact_us": "Contact Us",
+    "confirm": {
+      "title": "Confirm",
+      "message": "Are you sure you want to delete your assistant? Once deleted, the web page, JS embed code, and API interfaces associated with the published page will be discontinued, and this action cannot be undone.",
+      "ok": "Ok",
+      "cancel": "Cancel"
+    }
+  },
+  "welcome": {
+    "missing_org": "Please Enter Organization Name",
+    "org_info": "Team Information",
+    "name_required": "Name is Required",
+    "name_placeholder": "Maximum 50 Characters",
+    "contact_required": "Contact is Required",
+    "contact_placeholder": "Contact Name",
+    "phone_required": "Phone is Required",
+    "phone_placeholder": "Contact Phone",
+    "size_required": "This Field is Required",
+    "role_required": "Role is Required",
+    "types": [
+      "Select Company Type",
+      "Information Transmission, Software, and Information Technology Services",
+      "Scientific Research and Technical Services",
+      "Education",
+      "Financial Industry",
+      "Real Estate Industry",
+      "Wholesale and Retail",
+      "Construction Industry",
+      "Transportation, Warehousing, and Postal Services",
+      "Food and Accommodation Services",
+      "Leasing and Business Services",
+      "Water Conservancy, Environmental Management",
+      "Residential Services, Repair, and Other Services",
+      "Healthcare and Social Work",
+      "Culture, Sports, and Entertainment",
+      "Public Administration, Social Security, and Social Organizations",
+      "Culture, Sports, and Entertainment",
+      "Manufacturing Industry",
+      "Agriculture, Forestry, Animal Husbandry, and Fishery",
+      "Electricity, Heat, Gas, and Water Production and Supply",
+      "Mining Industry",
+      "Other"
+    ],
+    "sizes": [
+      "Select Company Size",
+      "Just Me",
+      "1-5",
+      "5-25",
+      "25-100",
+      "100-250",
+      "250-1000",
+      "1000+",
+      "Prefer Not to Share"
+    ],
+    "roles": [
+      "Select Your Role",
+      "Individual Contributor",
+      "Team Manager",
+      "Director/VP/Executive",
+      "Other"
+    ]
+  },
+  "login": {
+    "info": "Log In",
+    "name_required": "Name is Required",
+    "name_placeholder": "Name or Email Address",
+    "password_required": "Password is Required",
+    "password_placeholder": "Password",
+    "forgot_password": "Forgot Password?",
+    "signin": "Don't have an account? <a href='/signup'>Sign Up</a>"
+  },
+  "signin": {
+    "info": "Welcome",
+    "name_required": "Name is Required",
+    "name_placeholder": "Username, Maximum 16 Characters",
+    "password_required": "Password is Required",
+    "password_placeholder": "Password, Minimum 8 Characters",
+    "password_error": "Password is less than 8 characters",
+    "comfirm_password_placeholder": "Confirm Password",
+    "comfirm_error": "Two passwords do not match",
+    "email_required": "Email is Required",
+    "email_placeholder": "Email",
+    "captcha_required": "Verification Code is Required",
+    "captcha_placeholder": "Verification Code",
+    "send": "Send Code",
+    "send_success": "Verification code has been sent to your email address",
+    "success": "Registration Successful",
+    "failure": "Something went wrong, please try again later",
+    "login": "Already have an account? <a href='/login'>Log In</a>"
+  }
+}

@@ -1,0 +1,175 @@
+.app {
+  font-size: 1rem;
+  @media screen and (max-width: 960px) {
+    font-size: 1.4rem;
+  }
+  .settings-container {
+    height: 100%;
+  }
+
+  .aside {
+    position: fixed;
+    left: 0;
+    height: 100vh;
+    overflow-y: auto;
+    z-index: 8;
+    .slide_back {
+      position: absolute;
+      bottom: 0;
+      font-size: 1.0rem;
+      width: 100%;
+    }
+    .logo {
+      line-height: 5rem;
+      box-sizing: border-box;
+      border-radius: 1rem;
+      padding: 0 1rem;
+      text-align: center;
+      // color: #fff;
+      // background-color: #fff;
+      // 字体省略
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      img {
+        width: 28px;
+        height: 28px;
+      }
+      .img {
+        cursor: pointer;
+        margin-right: 6px;
+      }
+    }
+  }
+
+  .header {
+    background-color: #fff;
+    padding: 0 0 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    z-index: 2;
+    box-shadow: 0 3px 8px 0 rgb(0 0 0 / 15%);
+    .right {
+      display: flex;
+      align-items: center;
+      min-width: 120px;
+    }
+    .header-tabs > .ant-tabs-nav {
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+  }
+
+  .content {
+    padding-top: 1px;
+    width: auto !important;
+    margin-left: 1px;
+  }
+
+  .footer {
+    text-align: center;
+  }
+  .mainContentInner {
+    flex: 1 1;
+    padding: 30px 30px 0;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    h3,
+    .h3 {
+      padding-bottom: 1em;
+    }
+    h4,
+    .h4 {
+      padding: 0.3em 0;
+      font-size: 1.1em;
+      font-weight: 500;
+    }
+  }
+
+  .settings-container {
+    .ant-tabs-nav {
+      margin: 0 15px !important;
+    }
+    .ant-tabs {
+      .ant-tabs-content {
+        height: 100%;
+      }
+    }
+    .faq-link {
+      font-weight: 700;
+      display: inline-block;
+    }
+    .faq-link:hover {
+      color: #3370ff;
+    }
+    .tree-node-noop {
+      position: absolute;
+      left: -16px;
+      width: 20px;
+      padding-right: 10px;
+      text-align: center;
+      .leaf-icon {
+        font-size: 6px;
+        height: 6px;
+        width: 6px;
+        display: inline-block;
+        background: #646a73;
+        border-radius: 100%;
+        vertical-align: middle;
+      }
+    }
+    .ant-table-pagination.ant-pagination {
+      margin-right: 30px !important;
+    }
+  }
+}
+
+.hand {
+  cursor: pointer;
+}
+
+.drawer-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.drawer-label {
+  color: #646a73;
+}
+.drawer-value {
+  color: #1f2329;
+}
+
+/// 覆盖 antd 样式
+.ant-layout {
+  background: #fff;
+}
+
+.ant-layout-header {
+  height: 50px;
+  line-height: 50px;
+}
+
+.flex-column,
+.flex-column-center {
+  display: flex !important;
+  flex-direction: column;
+}
+
+.flex-column-center {
+  align-items: center;
+  justify-content: center;
+}
+
+.ant-tooltip {
+  max-width: 400px !important;
+}
+
+.ant-popover-inner-content {
+  padding: 0 !important;
+}

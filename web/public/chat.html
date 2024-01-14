@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charSet="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="renderer" content="webkit"/>
+    <meta name="force-rendering" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16">
+    <meta name="theme-color" content="#fff" />
+    <!--meta name="keywords" content="chatbot,chatbot api,chatbot platform,chatbot builder,chatbot maker,chatbot software,chatbot development,chatbot developer,chatbot development company,chatbot development services,chatbot development tools,chatGPT,chatGPT api,chatGPT platform"/-->
+    <meta name="robots" content="follow, index"/>
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo.png" />
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <meta name="application-name" content="Marino | Custom AI using your data"/>
+    <meta name="description" content="AI chatbots for anything powered by data from anywhere"/>
+    <title>Marino | Custom AI for your data</title>
+    <meta property="og:title" content="Marino | Custom AI using your data"/>
+    <meta property="og:site_name" content="Marino | Custom AI using your data"/>
+    <meta property="og:description" content="AI chatbots for anything powered by data from anywhere"/>
+    <meta property="og:url" content="%PUBLIC_URL%/"/>
+    <meta property="og:image" content="%PUBLIC_URL%/og.png"/>
+    <meta property="og:image:alt" content="Marino | Custom AI using your data"/>
+    <meta property="og:type" content="website"/>
+    <style>
+      html, body {
+        width: 100%;
+        height: 100%;
+      }
+      #root{
+        width:100%;
+        margin: 0 auto;
+        overflow: hidden;
+        height: 100%;
+        touch-action: manipulation;
+      }
+        svg.page-loadding{
+          width: 100px;
+          height: 100px;
+          margin: 20px;
+          display:inline-block;
+        }
+        .d-flex {
+          display: -ms-flexbox !important;
+          display: flex !important;
+        }
+        .justify-content-center {
+          -ms-flex-pack: center !important;
+          justify-content: center !important;
+        }
+        .align-items-center {
+          -ms-flex-align: center !important;
+          align-items: center !important;
+        }
+        .vh-100 {
+          height: 100vh !important;
+        }
+        .text-center {
+          text-align: center !important;
+        }
+        h5,.h5 {
+          font-size: 1.25rem;
+        }
+    </style>
+    <title>Marino Agent</title>
+    <style>
+      .page-loadding{
+        --svg: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIiA/Pgo8IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHZlcnNpb249IjEuMSIgd2lkdGg9IjEwOCIgaGVpZ2h0PSIxMDgiIHZpZXdCb3g9IjAgMCAxMDggMTA4IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPGcgdHJhbnNmb3JtPSJtYXRyaXgoMC4wNTggLTAuMDEgMC4wMSAwLjA1OCA1NCA1NCkiICA+Cgk8ZyBzdHlsZT0iIiB2ZWN0b3ItZWZmZWN0PSJub24tc2NhbGluZy1zdHJva2UiID4KCQk8ZyB0cmFuc2Zvcm09Im1hdHJpeCg0LjIxIDIuNCAtMi40MyA0LjI1IDc1LjA0IDIyMy43MSkiICA+CgkJCTxwYXRoIHN0eWxlPSJzdHJva2U6IG5vbmU7IHN0cm9rZS13aWR0aDogMTsgc3Ryb2tlLWRhc2hhcnJheTogbm9uZTsgc3Ryb2tlLWxpbmVjYXA6IGJ1dHQ7IHN0cm9rZS1kYXNob2Zmc2V0OiAwOyBzdHJva2UtbGluZWpvaW46IG1pdGVyOyBzdHJva2UtbWl0ZXJsaW1pdDogNDsgZmlsbDogIzA2NzdGRjsgZmlsbC1ydWxlOiBub256ZXJvOyBvcGFjaXR5OiAxOyIgdmVjdG9yLWVmZmVjdD0ibm9uLXNjYWxpbmctc3Ryb2tlIiAgdHJhbnNmb3JtPSIgdHJhbnNsYXRlKC03NS41NSwgLTc2LjQzKSIgZD0iTSAxMzkuNyAyMS4zIEMgMTM4LjYgMjAuNDAwMDAwMDAwMDAwMDAyIDEzNi42IDE5LjYgMTMzLjYgMTguNyBDIDEyNS4zOTk5OTk5OTk5OTk5OSAxNi40IDcxLjYgMTkuNSA2OS41IDE5LjcgQyA2Ny41IDE5LjkgNjguMyAyMi45IDY4LjMgMjIuOSBMIDcyLjUgMjIuOSBDIDg3LjUgMjIuOSAxMDcuMSAyNCAxMTQgMjYuMjk5OTk5OTk5OTk5OTk3IEMgMTE5LjYgMjguMDk5OTk5OTk5OTk5OTk4IDExOS4xIDI5LjQgMTE5LjEgMjkuNCBMIDEwNy40IDgyIEMgMTA0LjQgOTYuMSA4OC44MDAwMDAwMDAwMDAwMSAxMzAuMyA0NS43IDEzMS45IEMgNDUuMSAxMjkuOCA0NC45MDAwMDAwMDAwMDAwMDYgMTI2LjYwMDAwMDAwMDAwMDAxIDQ1LjEgMTIyLjkgQyA0NS4yIDExNi43IDQ3IDEwNS40IDQ3IDEwNS40IEMgNDggOTguODAwMDAwMDAwMDAwMDEgNDkuMyA5Mi43IDUwLjEgODguODAwMDAwMDAwMDAwMDEgTCA1Ny42IDUzLjcwMDAwMDAwMDAwMDAxIEMgNTAuNiAzOS40MDAwMDAwMDAwMDAwMDYgMzEuMjAwMDAwMDAwMDAwMDAzIDM0LjMwMDAwMDAwMDAwMDAxIDIyLjIwMDAwMDAwMDAwMDAwMyAzNS4xMDAwMDAwMDAwMDAwMSBDIDIxLjQwMDAwMDAwMDAwMDAwMiAzNS4yMDAwMDAwMDAwMDAwMSAyMC43MDAwMDAwMDAwMDAwMDMgMzUuOTAwMDAwMDAwMDAwMDA2IDIwLjYgMzYuNzAwMDAwMDAwMDAwMDEgTCAxMS4yMDAwMDAwMDAwMDAwMDEgODIuMTAwMDAwMDAwMDAwMDEgQyA5LjEgOTIgNS40IDEzNSA1NC4yIDEzNSBDIDk4LjEgMTM1IDEyMSA5OS44IDEyNS43IDgyIEwgMTQwLjggMjQuMjk5OTk5OTk5OTk5OTk3IEMgMTQxLjIwMDAwMDAwMDAwMDAyIDIzLjI5OTk5OTk5OTk5OTk5NyAxNDAuNzAwMDAwMDAwMDAwMDIgMjIuMDk5OTk5OTk5OTk5OTk4IDEzOS43MDAwMDAwMDAwMDAwMiAyMS4yOTk5OTk5OTk5OTk5OTciIHN0cm9rZS1saW5lY2FwPSJyb3VuZCI+CgkJCTwvcGF0aD4KCQk8L2c+CgkJPGcgdHJhbnNmb3JtPSJtYXRyaXgoLTQuMTUgLTIuNTEgMi41MiAtNC4xOCAtNzEuNzYgLTIyMS4wOSkiICA+CgkJCTxwYXRoIHN0eWxlPSJzdHJva2U6IG5vbmU7IHN0cm9rZS13aWR0aDogMTsgc3Ryb2tlLWRhc2hhcnJheTogbm9uZTsgc3Ryb2tlLWxpbmVjYXA6IGJ1dHQ7IHN0cm9rZS1kYXNob2Zmc2V0OiAwOyBzdHJva2UtbGluZWpvaW46IG1pdGVyOyBzdHJva2UtbWl0ZXJsaW1pdDogNDsgZmlsbDogIzA2NzdGRjsgZmlsbC1ydWxlOiBub256ZXJvOyBvcGFjaXR5OiAxOyIgdmVjdG9yLWVmZmVjdD0ibm9uLXNjYWxpbmctc3Ryb2tlIiAgdHJhbnNmb3JtPSIgdHJhbnNsYXRlKC03NS41NSwgLTc2LjQzKSIgZD0iTSAxMzkuNyAyMS4zIEMgMTM4LjYgMjAuNDAwMDAwMDAwMDAwMDAyIDEzNi42IDE5LjYgMTMzLjYgMTguNyBDIDEyNS4zOTk5OTk5OTk5OTk5OSAxNi40IDcxLjYgMTkuNSA2OS41IDE5LjcgQyA2Ny41IDE5LjkgNjguMyAyMi45IDY4LjMgMjIuOSBMIDcyLjUgMjIuOSBDIDg3LjUgMjIuOSAxMDcuMSAyNCAxMTQgMjYuMjk5OTk5OTk5OTk5OTk3IEMgMTE5LjYgMjguMDk5OTk5OTk5OTk5OTk4IDExOS4xIDI5LjQgMTE5LjEgMjkuNCBMIDEwNy40IDgyIEMgMTA0LjQgOTYuMSA4OC44MDAwMDAwMDAwMDAwMSAxMzAuMyA0NS43IDEzMS45IEMgNDUuMSAxMjkuOCA0NC45MDAwMDAwMDAwMDAwMDYgMTI2LjYwMDAwMDAwMDAwMDAxIDQ1LjEgMTIyLjkgQyA0NS4yIDExNi43IDQ3IDEwNS40IDQ3IDEwNS40IEMgNDggOTguODAwMDAwMDAwMDAwMDEgNDkuMyA5Mi43IDUwLjEgODguODAwMDAwMDAwMDAwMDEgTCA1Ny42IDUzLjcwMDAwMDAwMDAwMDAxIEMgNTAuNiAzOS40MDAwMDAwMDAwMDAwMDYgMzEuMjAwMDAwMDAwMDAwMDAzIDM0LjMwMDAwMDAwMDAwMDAxIDIyLjIwMDAwMDAwMDAwMDAwMyAzNS4xMDAwMDAwMDAwMDAwMSBDIDIxLjQwMDAwMDAwMDAwMDAwMiAzNS4yMDAwMDAwMDAwMDAwMSAyMC43MDAwMDAwMDAwMDAwMDMgMzUuOTAwMDAwMDAwMDAwMDA2IDIwLjYgMzYuNzAwMDAwMDAwMDAwMDEgTCAxMS4yMDAwMDAwMDAwMDAwMDEgODIuMTAwMDAwMDAwMDAwMDEgQyA5LjEgOTIgNS40IDEzNSA1NC4yIDEzNSBDIDk4LjEgMTM1IDEyMSA5OS44IDEyNS43IDgyIEwgMTQwLjggMjQuMjk5OTk5OTk5OTk5OTk3IEMgMTQxLjIwMDAwMDAwMDAwMDAyIDIzLjI5OTk5OTk5OTk5OTk5NyAxNDAuNzAwMDAwMDAwMDAwMDIgMjIuMDk5OTk5OTk5OTk5OTk4IDEzOS43MDAwMDAwMDAwMDAwMiAyMS4yOTk5OTk5OTk5OTk5OTciIHN0cm9rZS1saW5lY2FwPSJyb3VuZCI+CgkJCTwvcGF0aD4KCQk8L2c+Cgk8L2c+CjwvZz4KPGcgIHRyYW5zZm9ybT0ibWF0cml4KDAuOCAwIDAgMC44IDE2IDU2KSI+Cgk8Y2lyY2xlIGN4PSIxNiIgY3k9IjUwIiByPSIxMCIgZmlsbD0iIzA2NzdmZiI+Cgk8YW5pbWF0ZSBhdHRyaWJ1dGVOYW1lPSJyIiByZXBlYXRDb3VudD0iaW5kZWZpbml0ZSIgZHVyPSIxcyIgY2FsY01vZGU9InNwbGluZSIga2V5VGltZXM9IjA7MC4yNTswLjU7MC43NTsxIiB2YWx1ZXM9IjA7MDsxMDsxMDsxMCIga2V5U3BsaW5lcz0iMCAwLjUgMC41IDE7MCAwLjUgMC41IDE7MCAwLjUgMC41IDE7MCAwLjUgMC41IDEiIGJlZ2luPSIwcyI+PC9hbmltYXRlPgoJPGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iY3giIHJlcGVhdENvdW50PSJpbmRlZmluaXRlIiBkdXI9IjFzIiBjYWxjTW9kZT0ic3BsaW5lIiBrZXlUaW1lcz0iMDswLjI1OzAuNTswLjc1OzEiIHZhbHVlcz0iMTY7MTY7MTY7NTA7ODQiIGtleVNwbGluZXM9IjAgMC41IDAuNSAxOzAgMC41IDAuNSAxOzAgMC41IDAuNSAxOzAgMC41IDAuNSAxIiBiZWdpbj0iMHMiPjwvYW5pbWF0ZT4KCTwvY2lyY2xlPgoJPGNpcmNsZSBjeD0iNTAiIGN5PSI1MCIgcj0iMTAiIGZpbGw9IiM1MmM0MWEiPgoJPGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgcmVwZWF0Q291bnQ9ImluZGVmaW5pdGUiIGR1cj0iMXMiIGNhbGNNb2RlPSJzcGxpbmUiIGtleVRpbWVzPSIwOzAuMjU7MC41OzAuNzU7MSIgdmFsdWVzPSIwOzA7MTA7MTA7MTAiIGtleVNwbGluZXM9IjAgMC41IDAuNSAxOzAgMC41IDAuNSAxOzAgMC41IDAuNSAxOzAgMC41IDAuNSAxIiBiZWdpbj0iLTAuMjVzIj48L2FuaW1hdGU+Cgk8YW5pbWF0ZSBhdHRyaWJ1dGVOYW1lPSJjeCIgcmVwZWF0Q291bnQ9ImluZGVmaW5pdGUiIGR1cj0iMXMiIGNhbGNNb2RlPSJzcGxpbmUiIGtleVRpbWVzPSIwOzAuMjU7MC41OzAuNzU7MSIgdmFsdWVzPSIxNjsxNjsxNjs1MDs4NCIga2V5U3BsaW5lcz0iMCAwLjUgMC41IDE7MCAwLjUgMC41IDE7MCAwLjUgMC41IDE7MCAwLjUgMC41IDEiIGJlZ2luPSItMC4yNXMiPjwvYW5pbWF0ZT4KCTwvY2lyY2xlPgoJPGNpcmNsZSBjeD0iODQiIGN5PSI1MCIgcj0iMTAiIGZpbGw9IiNmYWFkMTQiPgoJPGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgcmVwZWF0Q291bnQ9ImluZGVmaW5pdGUiIGR1cj0iMXMiIGNhbGNNb2RlPSJzcGxpbmUiIGtleVRpbWVzPSIwOzAuMjU7MC41OzAuNzU7MSIgdmFsdWVzPSIwOzA7MTA7MTA7MTAiIGtleVNwbGluZXM9IjAgMC41IDAuNSAxOzAgMC41IDAuNSAxOzAgMC41IDAuNSAxOzAgMC41IDAuNSAxIiBiZWdpbj0iLTAuNXMiPjwvYW5pbWF0ZT4KCTxhbmltYXRlIGF0dHJpYnV0ZU5hbWU9ImN4IiByZXBlYXRDb3VudD0iaW5kZWZpbml0ZSIgZHVyPSIxcyIgY2FsY01vZGU9InNwbGluZSIga2V5VGltZXM9IjA7MC4yNTswLjU7MC43NTsxIiB2YWx1ZXM9IjE2OzE2OzE2OzUwOzg0IiBrZXlTcGxpbmVzPSIwIDAuNSAwLjUgMTswIDAuNSAwLjUgMTswIDAuNSAwLjUgMTswIDAuNSAwLjUgMSIgYmVnaW49Ii0wLjVzIj48L2FuaW1hdGU+Cgk8L2NpcmNsZT4KCTxjaXJjbGUgY3g9IjE2IiBjeT0iNTAiIHI9IjEwIiBmaWxsPSIjZjUyMjJkIj4KCTxhbmltYXRlIGF0dHJpYnV0ZU5hbWU9InIiIHJlcGVhdENvdW50PSJpbmRlZmluaXRlIiBkdXI9IjFzIiBjYWxjTW9kZT0ic3BsaW5lIiBrZXlUaW1lcz0iMDswLjI1OzAuNTswLjc1OzEiIHZhbHVlcz0iMDswOzEwOzEwOzEwIiBrZXlTcGxpbmVzPSIwIDAuNSAwLjUgMTswIDAuNSAwLjUgMTswIDAuNSAwLjUgMTswIDAuNSAwLjUgMSIgYmVnaW49Ii0wLjc1cyI+PC9hbmltYXRlPgoJPGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iY3giIHJlcGVhdENvdW50PSJpbmRlZmluaXRlIiBkdXI9IjFzIiBjYWxjTW9kZT0ic3BsaW5lIiBrZXlUaW1lcz0iMDswLjI1OzAuNTswLjc1OzEiIHZhbHVlcz0iMTY7MTY7MTY7NTA7ODQiIGtleVNwbGluZXM9IjAgMC41IDAuNSAxOzAgMC41IDAuNSAxOzAgMC41IDAuNSAxOzAgMC41IDAuNSAxIiBiZWdpbj0iLTAuNzVzIj48L2FuaW1hdGU+Cgk8L2NpcmNsZT4KCTwvZz4KPC9zdmc+");
+        width: 180px;
+        height: 180px;
+        margin: 20px;
+        display:inline-block;
+        background-color: transparent;
+				background-image: var(--svg);
+				background-repeat: no-repeat;
+				background-size: 100% 100%;
+      }
+      .d-flex {
+        display: -ms-flexbox !important;
+        display: flex !important;
+      }
+      .justify-content-center {
+        -ms-flex-pack: center !important;
+        justify-content: center !important;
+      }
+      .align-items-center {
+        -ms-flex-align: center !important;
+        align-items: center !important;
+      }
+      .vh-100 {
+        height: 100vh !important;
+      }
+      .text-center {
+        text-align: center !important;
+      }
+      h5,.h5 {
+        font-size: 1.25rem;
+      }
+    </style>
+  </head>
+  <body class="chat_page">
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root">
+      <div class="d-flex vh-100 justify-content-center align-items-center">
+        <div>
+          <div class="page-loadding">
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
