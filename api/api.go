@@ -108,8 +108,6 @@ func (api Api) BuildQuery(query string, segments []model.Segment, messages []mod
 		Role:    types.ChatMessageRoleUser,
 		Content: str,
 	})
-
-	fmt.Println(system, str)
 	return msgs
 }
 
