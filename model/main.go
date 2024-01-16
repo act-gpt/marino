@@ -120,49 +120,47 @@ func InitDB(source string) (err error) {
 		logx.Error(fmt.Sprintf("\033[31;1;4mDB access denied: %s\033[0m", err.Error()))
 		return err
 	}
-	if err == nil {
-		DB = db
-		err := db.AutoMigrate(&User{})
-		if err != nil {
-			return err
-		}
-		err = db.AutoMigrate(&Organization{})
-		if err != nil {
-			return err
-		}
-		err = db.AutoMigrate(&Bot{})
-		if err != nil {
-			return err
-		}
-		err = db.AutoMigrate(&Folder{})
-		if err != nil {
-			return err
-		}
-		err = db.AutoMigrate(&Knowledge{})
-		if err != nil {
-			return err
-		}
-		err = db.AutoMigrate(&Template{})
-		if err != nil {
-			return err
-		}
-		err = db.AutoMigrate(&Message{})
-		if err != nil {
-			return err
-		}
-		err = db.AutoMigrate(&Blocked{})
-		if err != nil {
-			return err
-		}
-		err = db.AutoMigrate(&Config{})
-		if err != nil {
-			return err
-		}
-		InitSegments(system.Config)
-		err = createRootAccountIfNeed()
+
+	DB = db
+	if err := DB.First(&User{}).Error; err == nil {
+		return nil
+	}
+
+	if err = db.AutoMigrate(&User{}); err != nil {
 		return err
 	}
-	return err
+	if err = db.AutoMigrate(&Organization{}); err != nil {
+		return err
+	}
+
+	if err = db.AutoMigrate(&Bot{}); err != nil {
+		return err
+	}
+
+	if err = db.AutoMigrate(&Folder{}); err != nil {
+		return err
+	}
+	if err = db.AutoMigrate(&Knowledge{}); err != nil {
+		return err
+	}
+
+	if err = db.AutoMigrate(&Template{}); err != nil {
+		return err
+	}
+
+	if err = db.AutoMigrate(&Message{}); err != nil {
+		return err
+	}
+
+	if err = db.AutoMigrate(&Blocked{}); err != nil {
+		return err
+	}
+
+	if err = db.AutoMigrate(&Config{}); err != nil {
+		return err
+	}
+	InitSegments(system.Config)
+	return createRootAccountIfNeed()
 }
 
 func CloseDB() error {
