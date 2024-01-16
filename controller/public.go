@@ -329,7 +329,7 @@ func Query(c *gin.Context) {
 
 	if setting.Contexts == 0 {
 		msgs, err := model.GetMessagesByConversation(req.Conversation, id, 0, setting.Histories)
-		messages = api.Client.BuildConversion(msgs)
+		messages = api.Client.BuildQuery(req.Prompt, []model.Segment{}, msgs, setting)
 		if err != nil {
 			responseError(c, ErrorResponse{
 				Code:       500,

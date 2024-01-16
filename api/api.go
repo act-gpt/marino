@@ -64,26 +64,6 @@ func systemPrompt() string {
 	return prompt
 }
 
-// for conversation
-func (api Api) BuildConversion(messages []model.Message) []types.ChatModelMessage {
-	var msgs []types.ChatModelMessage
-	msgs = append(msgs, types.ChatModelMessage{
-		Role:    types.ChatMessageRoleSystem,
-		Content: systemPrompt(),
-	})
-	for _, val := range messages {
-		msgs = append(msgs, types.ChatModelMessage{
-			Role:    types.ChatMessageRoleUser,
-			Content: val.Question,
-		})
-		msgs = append(msgs, types.ChatModelMessage{
-			Role:    types.ChatMessageRoleAssistant,
-			Content: val.Answer,
-		})
-	}
-	return msgs
-}
-
 func (api Api) Engine(bot model.BotSetting) (engine.LLM, error) {
 	return engine.New(bot)
 }
@@ -119,15 +99,17 @@ func (api Api) BuildQuery(query string, segments []model.Segment, messages []mod
 	})
 
 	var msgs []types.ChatModelMessage
+	var system = systemPrompt()
 	msgs = append(msgs, types.ChatModelMessage{
 		Role:    types.ChatMessageRoleSystem,
-		Content: systemPrompt(),
+		Content: system,
 	})
 	msgs = append(msgs, types.ChatModelMessage{
 		Role:    types.ChatMessageRoleUser,
 		Content: str,
 	})
 
+	fmt.Println(system, str)
 	return msgs
 }
 

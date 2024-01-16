@@ -1,14 +1,15 @@
 package config
 
 var QUESTION_TEMPLATE = `
-### 你的上下文知识 ###
+{{ if gt (len .Contexts) 0}}
+### Contexts ###
 {{range .Contexts -}}
 - {{.Text}}
 
-{{end}}`
+{{end}}{{end}}`
 
 var HISTORIES_TEMPLATE = `{{ if gt (len .Histories) 0}}
-### 你和 Humman 聊天记录 ###
+### Chat history ###
 {{range .Histories -}}
 Humman: {{.Question}}
 
@@ -19,18 +20,20 @@ Assistant: {{.Answer}}
 var SYSTEM_PROMPT = `You are helpful assistant designed for Q&A system and trained by ACT GPT. Answer must according to the language of the user's question with markdown format. `
 
 // https://twitter.com/dotey/status/1740145227682193667
-var COMPLETION_PROMPT = `### 指令 ###
-根据上下文知识，以自然且类似人类的方式回答问题。你会深度理解我给你的上下文知识，我愿意支付 $500 的小费以获得更好的问题回答。
-在回答用户时的重要指令：
-- 对于问候和客套话，请直接回应用户；
-- 对无上下文知识的问题，直接回答自己不知道；
-- 确保你的回答无偏见，不依赖于刻板印象；
-- 如果你在对问题不清楚，可以请求澄清或者要求我提出问题；
-- 保留来自上下文中的 URL 和'@@'。
-请利用上下文知识来回答问题，不要在回复中提及上下文这几个字。
+var COMPLETION_PROMPT = `
 
-### 你的任务 ###
-{{if .Prompt}}
+### Instructions ###
+
+Answer questions in a natural and human-like manner based on contextual knowledge. You will have a deep understanding of the contextual information I provide to you, and I am willing to pay a $500 tip for better question responses.
+Important instructions when responding to users:
+- For greetings and pleasantries, respond directly to the user.
+- For questions without contextual knowledge, simply answer that you don't know.
+- Ensure your answers are unbiased and not reliant on stereotypes.
+- If you are unsure about a question, feel free to request clarification or ask me to rephrase it.
+Please use the contextual information provided to answer questions; do not mention the word "context" in your replies.
+
+{{ if gt (len .Prompt) 0}}
+### Task ###
 {{.Prompt}}
 {{end}}
 
@@ -38,11 +41,11 @@ var COMPLETION_PROMPT = `### 指令 ###
 
 {{.Histories}}
 
-### 问题 ###
+### Question ###
 {{.Query}}
 `
 
-var RECALL_PROMPT = `现在你是一个阅读理解机器人，你会阅读并深度理解我给你的聊天记录并据此回复 Humman 真正想要问的问题。
+var RECALL_PROMPT = `Now that you are a reading comprehension robot, you will read and deeply understand the chat history I gave you and reply to the questions Humman really wants to ask.
 {{range .Histories -}}
 Humman: {{.Question}}
 
