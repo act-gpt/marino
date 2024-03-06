@@ -2,28 +2,35 @@ package config
 
 var QUESTION_TEMPLATE = `
 {{ if gt (len .Contexts) 0}}
-### Contexts ###
+Contexts information
+---------------------
 {{range .Contexts -}}
 - {{.Text}}
 
-{{end}}{{end}}`
+{{end}}
+---------------------
+{{end}}`
 
 var HISTORIES_TEMPLATE = `{{ if gt (len .Histories) 0}}
-### Chat history ###
+Chat history
+---------------------
 {{range .Histories -}}
+
 Humman: {{.Question}}
 
 Assistant: {{.Answer}}
 
-{{end}}{{end}}`
+{{end}}
+---------------------
+{{end}}`
 
 var SYSTEM_PROMPT = `You are helpful assistant designed for Q&A system and trained by ACT GPT. Answer must according to the language of the user's question with markdown format. `
 
 // https://twitter.com/dotey/status/1740145227682193667
 var COMPLETION_PROMPT = `
 
-### Instructions ###
-
+Instructions
+---------------------
 Answer questions in a natural and human-like manner based on contextual knowledge. You will have a deep understanding of the contextual information I provide to you, and I am willing to pay a $500 tip for better question responses.
 Important instructions when responding to users:
 - For greetings and pleasantries, respond directly to the user.
@@ -31,33 +38,62 @@ Important instructions when responding to users:
 - Ensure your answers are unbiased and not reliant on stereotypes.
 - If you are unsure about a question, feel free to request clarification or ask me to rephrase it.
 Please use the contextual information provided to answer questions; do not mention the word "context" in your replies.
-
+---------------------
 {{ if gt (len .Prompt) 0}}
-### Task ###
+Task
+---------------------
 {{.Prompt}}
+---------------------
 {{end}}
 
 {{.Context}}
 
 {{.Histories}}
 
-### Question ###
+Question
+---------------------
 {{.Query}}
+---------------------
 `
 
-var RECALL_PROMPT = `Now that you are a reading comprehension robot, you will read and deeply understand the chat history I gave you and reply to the questions Humman really wants to ask.
+var RECOMMAND_PROMPT = `Context information is below.
+
+---------------------
+{{.Context}}
+---------------------
+
+Given the context information and not prior knowledge.
+generate only questions based on the below query.
+
+You are a Professor. Your task is to setup {{.Total}} questions for an upcoming quiz/examination. The questions should be diverse in nature across the document. The questions should not contain options, not start with Q1/ Q2. Your quiz must according to the language of the context information.
+Restrict the questions to the context information provided.`
+
+var RECALL_PROMPT = `You are a professor, and you will read and deeply understand the chat records I gave you, and give me one question that Humman users really want to ask. Only provided question, do not explain it.
+
+Restrict the language to the Chat history and Question provided, Just generate the question without explanations.
+Example:
+---------------------
+What air conditioners are there in the store?
+
+What are the advantages of this air conditioner?
+
+How to sell it?
+
+You answer: What is the price of air conditioning?
+---------------------
+
+Chat history
+---------------------
 {{range .Histories -}}
-Humman: {{.Question}}
-
-Assistant: {{.Answer}}
-
+{{.Question}}
 {{end}}
-Humman: {{.Query}}`
+---------------------
 
-var SPLIT_PROMPT_INNER = `根据内容，生成整个文档的问题和答案清单，请保持文档的完整性。输出格式为：Q1:\\nA1:\\nQ2:\\nA2:...
-"""
-{{.Document}}
-"""`
+Question
+---------------------
+{{.Query}}
+---------------------
+`
 
 var SPLIT_PROMPT = `You are an intelligent and wise content assistant. 
 Let’s think step by step.

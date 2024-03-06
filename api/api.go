@@ -131,11 +131,12 @@ func (api Api) Insert(document *types.Document, update bool) error {
 		}
 		// 生成向量
 		embeddings, _ := api.Embedding(list)
-		for i, data := range batch {
+		for i, embedding := range embeddings {
+			data := batch[i]
 			segument := &model.Segment{
 				Id:          data.ID,
 				KnowledgeId: data.DocumentID,
-				Embedding:   embeddings[i],
+				Embedding:   embedding,
 				Index:       i + 1,
 				Text:        data.Text,
 				Corpus:      data.Metadata.Corpus,

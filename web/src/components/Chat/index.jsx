@@ -275,7 +275,7 @@ const Component = (props) => {
   }
 
   const open = (url) => {
-    window.open(process.env.REACT_APP_WEB + '/link?target=' + encodeURIComponent(url), '_blank').focus()
+    window.open((process.env.REACT_APP_WEB || '') + '/link?target=' + encodeURIComponent(url), '_blank').focus()
   }
 
   const onSend = async (input) => {

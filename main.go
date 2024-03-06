@@ -5,6 +5,7 @@ import (
 	"os"
 	"runtime"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/act-gpt/marino/api"
@@ -102,7 +103,13 @@ func main() {
 
 	go func() {
 		time.Sleep(1 * time.Second)
-		common.Open("http://" + host + ":" + port)
+		url := os.Getenv("PORTAL")
+		if url != "" {
+			if !strings.HasPrefix(url, "http") {
+				url += "http://" + host + ":" + port + url
+			}
+			common.Open(url)
+		}
 	}()
 	fmt.Println("\033[32;1;4mServer start listening at " + host + ":" + port + "\033[0m")
 	err := server.Run(host + ":" + port)

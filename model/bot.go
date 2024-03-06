@@ -24,11 +24,11 @@ type BotSetting struct {
 	// Custome prompt
 	Prompt string `json:"prompt"`
 	// Welcome message
-	Welcome     string `json:"welcome"`
-	Description string `json:"description"`
-	Corpus      string `json:"corpus"`
-	Link        string `json:"link"`
-	// MILVUS_CONFIG
+	Welcome     string  `json:"welcome"`
+	Description string  `json:"description"`
+	Corpus      string  `json:"corpus"`
+	Link        string  `json:"link"`
+	MaxTokens   int     `json:"max_tokens"`
 	Temperature float32 `json:"temperature"`
 	// verctor score
 	Score float64 `json:"score"`
