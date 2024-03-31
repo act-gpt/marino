@@ -100,9 +100,13 @@ func SearchKnowledges(c *gin.Context) {
 }
 
 func GetKnowledgesByPath(c *gin.Context) {
-	p, _ := strconv.Atoi(c.Query("p"))
-	if p < 0 {
-		p = 0
+	page, _ := strconv.Atoi(c.Query("page"))
+	if page < 1 {
+		page = 1
+	}
+	size, _ := strconv.Atoi(c.Query("size"))
+	if size <= 0 {
+		size = common.ItemsPerPage
 	}
 	role := c.GetInt("role")
 	orgId := c.GetString("orgId")
@@ -111,11 +115,12 @@ func GetKnowledgesByPath(c *gin.Context) {
 
 	var knowledges []*model.Knowledge
 	var err error
+	var total int64
 	// root category
 	if path == "0" {
-		knowledges, err = model.GetKnowledgesByBotId(bot)
+		knowledges, total, err = model.GetKnowledgesByBotId(bot, (page-1)*size, size)
 	} else {
-		knowledges, err = model.GetKnowledgesByPath(bot, path)
+		knowledges, total, err = model.GetKnowledgesByPath(bot, path, (page-1)*size, size)
 	}
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
@@ -134,6 +139,11 @@ func GetKnowledgesByPath(c *gin.Context) {
 			}
 			return m.OrgId == orgId
 		}),
+		"meta": &Pagination{
+			Total: int(total),
+			Page:  page,
+			Size:  size,
+		},
 	})
 }
 

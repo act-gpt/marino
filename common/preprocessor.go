@@ -28,7 +28,7 @@ type PreprocessorConfig struct {
 	ChunkOverlap int
 }
 
-func (cfg *PreprocessorConfig) init() *PreprocessorConfig {
+func (cfg *PreprocessorConfig) Init() *PreprocessorConfig {
 	config := system.Config.Parser
 	if cfg.ChunkTokenNum == 0 {
 		cfg.ChunkTokenNum = config.ChunkTokenNum
@@ -57,7 +57,7 @@ type Preprocessor struct {
 func NewPreprocessor(cfg *PreprocessorConfig) *Preprocessor {
 	return &Preprocessor{
 		encoder: Encoder,
-		cfg:     cfg.init(),
+		cfg:     cfg.Init(),
 	}
 }
 

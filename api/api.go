@@ -11,6 +11,8 @@ import (
 	"github.com/act-gpt/marino/engine"
 	"github.com/act-gpt/marino/engine/embedding"
 	"github.com/act-gpt/marino/engine/parser"
+
+	//"github.com/act-gpt/marino/engine/reranker"
 	"github.com/act-gpt/marino/model"
 	"github.com/act-gpt/marino/types"
 
@@ -22,6 +24,11 @@ var Client *Api
 type Api struct {
 	Config system.SystemConfig
 	ctx    context.Context
+}
+
+type Split interface {
+	NewPreprocessor() *common.Preprocessor
+	Preprocess(*types.Document) (map[string][]*types.Chunk, error)
 }
 
 func NewApiClient() *Api {
@@ -68,6 +75,23 @@ func (api Api) Engine(bot model.BotSetting) (engine.LLM, error) {
 	return engine.New(bot)
 }
 
+// TODO: not finished
+func (api Api) Filter(filename string) (parser.Sugmentation, error) {
+
+	return parser.Sugmentation{}, nil
+}
+
+// TODO: not finished
+func (api Api) Reranker(query string, document []types.Document, bot model.BotSetting) ([]types.Document, error) {
+
+	var docs []string
+	for _, doc := range document {
+		docs = append(docs, doc.Text)
+	}
+	//res , _ := reranker.Reranker(query, docs, bot.Contexts)
+	return []types.Document{}, nil
+}
+
 // for knowledge query
 func (api Api) BuildQuery(query string, segments []model.Segment, messages []model.Message, bot model.BotSetting) []types.ChatModelMessage {
 	// 上下文
@@ -111,11 +135,20 @@ func (api Api) BuildQuery(query string, segments []model.Segment, messages []mod
 	return msgs
 }
 
-func (api Api) Insert(document *types.Document, update bool) error {
+func (api Api) Insert(document *types.Document, update bool, bot model.BotSetting) error {
 
-	processor := common.NewPreprocessor(&common.PreprocessorConfig{})
+	var chunks map[string][]*types.Chunk
+	var err error
+
 	// 获取分块
-	chunks, err := processor.Preprocess(document)
+	if bot.SplitByModel {
+		processor := engine.NewPreprocessor(&common.PreprocessorConfig{})
+		chunks, err = processor.Preprocess(document)
+	} else {
+		processor := common.NewPreprocessor(&common.PreprocessorConfig{})
+		chunks, err = processor.Preprocess(document)
+	}
+
 	if err != nil {
 		return err
 	}
@@ -170,11 +203,10 @@ func genBatches(chunks map[string][]*types.Chunk, size int) <-chan []*types.Chun
 	ch := make(chan []*types.Chunk)
 	go func() {
 		var batch []*types.Chunk
-
-		for _, chunkList := range chunks {
+		for doc, chunkList := range chunks {
+			fmt.Println(doc, " Chuncks size: ", len(chunkList))
 			for _, chunk := range chunkList {
 				batch = append(batch, chunk)
-
 				if len(batch) == size {
 					// Reach the batch size, copy and send all the buffered chunks.
 					temp := make([]*types.Chunk, size)

@@ -326,10 +326,6 @@ func GetMessagesByBot(c *gin.Context) {
 	orgId := c.GetString("orgId")
 	admin := c.GetString("id")
 	id := c.Param("id")
-	/*
-		start := c.Query("start")
-		end := c.Query("end")
-	*/
 	page, _ := strconv.Atoi(c.Query("page"))
 	if page < 1 {
 		page = 1

@@ -91,6 +91,13 @@ type SystemConfig struct {
 		AccessKey string `json:",optional,default="`
 	}
 
+	Reranker struct {
+		Host      string `json:",optional,default=http://0.0.0.0:8000"`
+		Api       string `json:",optional,default=/v1/reranker"`
+		Model     string `json:",optional,default=act-reranker-001"`
+		AccessKey string `json:",optional,default="`
+	}
+
 	Baidu struct {
 		ClientId     string `json:",optional,default="`
 		ClientSecret string `json:",optional,default="`

@@ -19,7 +19,7 @@ type TextReq struct {
 func Html2text(html string) (string, error) {
 
 	conf := system.Config.Parser
-	reqUrl := conf.TextApi
+	reqUrl := conf.Host + conf.TextApi
 
 	item := TextReq{
 		Data: html,

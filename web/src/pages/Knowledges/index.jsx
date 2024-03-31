@@ -19,7 +19,7 @@ const msg = message
 const Knowledge = (props) => {
   const { bot } = props
   const { t } = useTranslation()
-  const defaultQuery = { p: 0 }
+  const defaultQuery = { page: 1, size: 20 }
   const defaultKey = '0'
   const defaultFolder = [
     {
@@ -287,23 +287,30 @@ const Knowledge = (props) => {
       page: current,
       size: pageSize
     })
-    get(defaultKey)
+    get(defaultKey, {
+      page: current,
+      size: pageSize
+    })
   }
 
   const get = (path, search) => {
-    const q = { ...defaultQuery }
+    let q = { ...defaultQuery}
     if (path && path === defaultKey) {
       q.path = '0'
     } else {
       q.path = path
     }
+    if(search){
+      q = {...q, ...search}
+    }
     Api.get_knowledge(bot.id, q).then((res) => {
-      if (res.data) {
-        const data = _.map(res.data, (item) => {
+      const { success, meta, data } = res
+      if(success){
+        setKnowledges([..._.map(data, (item) => {
           item.key = item.id
           return item
-        })
-        setKnowledges([...data])
+        })])
+        setPagination(meta)
       }
     })
   }
@@ -430,8 +437,8 @@ const Knowledge = (props) => {
     },
     {
       title: t('knowledge.table.update'),
-      dataIndex: 'created_at',
-      key: 'created_at',
+      dataIndex: 'updated_at',
+      key: 'updated_at',
       align: 'left',
       render: (r) => {
         return r ? moment(r).format('MMM DD h:m') : '-'
@@ -534,7 +541,13 @@ const Knowledge = (props) => {
                     total: pagination.total,
                     hideOnSinglePage: true,
                     showTotal: (total) => t('knowledge.table.total', { total }),
-                    onShowSizeChange: { onShowSizeChange }
+                    onShowSizeChange: { onShowSizeChange },
+                    onChange: (page, size) => {
+                      get(defaultKey, {
+                        page,
+                        size
+                      })
+                    }
                   }}
                 />
               </>

@@ -393,8 +393,6 @@ func Query(c *gin.Context) {
 			tokens = 500
 		}
 	}
-	fmt.Println(setting.MaxTokens)
-	fmt.Println("tokens", tokens)
 	llm, err := api.Client.Engine(setting)
 	llm.SetModel(mod)
 	llm.SetTemperature(temperature)

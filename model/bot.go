@@ -30,12 +30,16 @@ type BotSetting struct {
 	Link        string  `json:"link"`
 	MaxTokens   int     `json:"max_tokens"`
 	Temperature float32 `json:"temperature"`
-	// verctor score
+	//retrieval score
 	Score float64 `json:"score"`
 	// contexts in LLM prompt
 	Contexts int `json:"contexts"`
 	// histories in LLM prompt
 	Histories int `json:"histories"`
+	// split by ai
+	SplitByModel bool `json:"split_by_model"`
+	// reranker
+	Rerank bool `json:"rerank"`
 }
 
 type Bot struct {

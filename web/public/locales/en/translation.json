@@ -350,6 +350,7 @@
       "folder_name": "Folder",
       "relate": "Related Words",
       "status": "Status",
+      "total": "Total {{total}}",
       "status_desc": "Training limited: Each individual bot has training resource limitations. If this doesn't meet your requirements, please contact our consultant to upgrade your account. Free account: 6 times/day, Basic edition: 50 times/day, Premium edition: 200 times/day.",
       "status_list": [
         "Failed",

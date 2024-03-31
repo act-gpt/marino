@@ -121,12 +121,11 @@ func (c *Client) Completion(ctx context.Context, msgs []types.ChatModelMessage, 
 	if err != nil {
 		return fmt.Errorf("failed reading response: %w", err)
 	}
-	fmt.Println(string(body))
 	var response types.ChatCompletionResponse
 	if err := json.Unmarshal(body, &response); err != nil {
 		return fmt.Errorf("failed unmarshal response: %w", err)
 	}
-	fmt.Println(response.Choices[0])
+	//fmt.Println(response.Choices[0])
 	select {
 	case <-ctx.Done():
 		return ctx.Err()

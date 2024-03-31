@@ -165,11 +165,17 @@ func (c *Client) Completion(ctx context.Context, msgs []types.ChatModelMessage, 
 		Role:    types.ChatMessageRoleAssistant,
 		Content: response.Result,
 	}
+	finishReason := "stop"
+	if response.FinishReason == "" {
+		if response.IsTruncated {
+			finishReason = "length"
+		}
+	}
 
 	choice := types.ChatCompletionChoice{
 		Index:        0,
 		Message:      message,
-		FinishReason: response.FinishReason,
+		FinishReason: finishReason,
 	}
 	select {
 	case <-ctx.Done():

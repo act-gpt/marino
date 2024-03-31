@@ -74,24 +74,28 @@ func GetKnowledgeById(id string) (*Knowledge, error) {
 	return &knowledge, err
 }
 
-func GetKnowledgesByBotId(bot string) ([]*Knowledge, error) {
+func GetKnowledgesByBotId(bot string, startIdx int, len int) ([]*Knowledge, int64, error) {
 	if bot == "" {
-		return nil, fmt.Errorf("bot_id 为空！")
+		return nil, 0, fmt.Errorf("bot_id 为空！")
 	}
 	var knowledge []*Knowledge
 	var err error = nil
-	err = DB.Omit("updated_at", "deleted_at").Where("bot_id = ?", bot).Find(&knowledge).Error
-	return knowledge, err
+	var total int64
+	DB.Where("bot_id = ?", bot).Select("id").Find(&knowledge).Count(&total)
+	err = DB.Omit("updated_at", "deleted_at").Where("bot_id = ?", bot).Limit(len).Offset(startIdx).Find(&knowledge).Error
+	return knowledge, total, err
 }
 
-func GetKnowledgesByPath(bot string, path string) ([]*Knowledge, error) {
+func GetKnowledgesByPath(bot string, path string, startIdx int, len int) ([]*Knowledge, int64, error) {
 	if path == "" {
-		return nil, fmt.Errorf("path 为空！")
+		return nil, 0, fmt.Errorf("path 为空！")
 	}
 	var knowledge []*Knowledge
 	var err error = nil
-	err = DB.Omit("updated_at", "deleted_at").Where("path LIKE ?", path+"%").Find(&knowledge, "bot_id = ?", bot).Error
-	return knowledge, err
+	var total int64
+	DB.Where("path LIKE ?", path+"%").Select("id").Find(&knowledge).Count(&total)
+	err = DB.Omit("updated_at", "deleted_at").Where("path LIKE ?", path+"%").Limit(len).Offset(startIdx).Find(&knowledge, "bot_id = ?", bot).Error
+	return knowledge, total, err
 }
 
 func DeleteKnowledgesByBot(bot string) ([]*Knowledge, error) {

@@ -33,13 +33,13 @@ func Chunks(s string, chunkSize int) []string {
 
 func update(knowledge *model.Knowledge, insert bool) {
 	// for bot
-	bot, err := model.GetBotById(knowledge.BotId)
+	bot, err := model.GetSetting(knowledge.BotId, "")
 	if err != nil {
 		return
 	}
 	// parse html 2 text
 	meta := &types.Metadata{
-		Corpus: bot.Setting["corpus"].(string),
+		Corpus: bot.Corpus,
 	}
 	text, err := common.Html2text(knowledge.Content)
 	if err != nil {
@@ -66,7 +66,7 @@ func update(knowledge *model.Knowledge, insert bool) {
 		}
 	}
 	// embedding document
-	err = api.Client.Insert(document, insert)
+	err = api.Client.Insert(document, insert, bot)
 	if err != nil {
 		knowledge.Status = 0
 	} else {
