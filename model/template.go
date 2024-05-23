@@ -11,11 +11,11 @@ import (
 
 type Template struct {
 	Id          string         `json:"id" gorm:"primaryKey"`
-	Avatar      string         `json:"avatar" `
+	Avatar      string         `json:"avatar"`
 	Name        string         `json:"name"  validate:"max=32"`
-	Description string         `json:"description" `
-	Kind        string         `json:"kind" `
-	Language    string         `json:"language" `
+	Description string         `json:"description"`
+	Kind        string         `json:"kind"`
+	Language    string         `json:"language"`
 	Setting     JSON           `json:"setting"`
 	CreatedAt   time.Time      `json:"created_at"`
 	UpdatedAt   time.Time      `json:"updated_at"`

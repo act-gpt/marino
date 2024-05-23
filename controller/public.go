@@ -329,7 +329,7 @@ func Query(c *gin.Context) {
 
 	if setting.Contexts == 0 {
 		msgs, err := model.GetMessagesByConversation(req.Conversation, id, 0, setting.Histories)
-		messages = api.Client.BuildQuery(req.Prompt, []model.Segment{}, msgs, setting)
+		messages = api.Client.BuildQuery(req.Prompt, []types.Document{}, msgs, setting)
 		if err != nil {
 			responseError(c, ErrorResponse{
 				Code:       500,
@@ -357,7 +357,30 @@ func Query(c *gin.Context) {
 			})
 			return
 		}
-		messages = api.Client.BuildQuery(req.Prompt, segments, msgs, setting)
+		var docs []types.Document
+		for _, item := range segments {
+			doc := types.Document{
+				ID:         item.Id,
+				DocumentID: item.KnowledgeId,
+				Text:       item.Text,
+				Score:      item.Score,
+			}
+			docs = append(docs, doc)
+		}
+
+		if setting.Rerank {
+			docs, err = api.Client.Reranker(req.Prompt, docs, setting)
+			if err != nil {
+				responseError(c, ErrorResponse{
+					Code:       500,
+					Message:    err.Error(),
+					StatusCode: 500,
+				})
+				return
+			}
+		}
+
+		messages = api.Client.BuildQuery(req.Prompt, docs, msgs, setting)
 		for _, val := range segments {
 			source = append(source, SegemntResponse{
 				Id:    val.Id,

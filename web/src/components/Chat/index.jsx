@@ -54,7 +54,6 @@ const Component = (props) => {
   }
   const sse = async (input) => {
     let text = ''
-
     // message
     const  message = {
       direction: 0,
@@ -74,10 +73,10 @@ const Component = (props) => {
     })
     setMessages(msgs)
     
-
     // request done
     const onDone = () => {
       message.content = text
+      message.streaming = false
       if (text){
         setMessages([...msgs,  message])
       }else{
@@ -109,7 +108,7 @@ const Component = (props) => {
       // close http request
       if (e.readyState == sse.CLOSED) {
         setDisabled(false)
-        message.done = true
+        //message.done = true
         onDone()
       }
     })
@@ -279,7 +278,7 @@ const Component = (props) => {
   }
 
   const onSend = async (input) => {
-    if (!input.trim()) {
+    if (!input.trim() || disabled) {
       return
     }
     setDisabled(true)

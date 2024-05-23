@@ -34,9 +34,6 @@ const Finished = (props) => {
   
   
   const submit = async () => {
-    if (config.Db.Dimension === 768){
-      initialled["Embedding"] = true
-    }
     setDisabled(true)
     initialled["Mail"] = config.Mail && config.Mail.SMTPToken ? true : false
     config.Initialled = initialled

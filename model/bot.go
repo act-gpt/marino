@@ -31,15 +31,23 @@ type BotSetting struct {
 	MaxTokens   int     `json:"max_tokens"`
 	Temperature float32 `json:"temperature"`
 	//retrieval score
-	Score float64 `json:"score"`
+	Score     float64 `json:"score"`
+	Retrieval int     `json:"retrievel"`
 	// contexts in LLM prompt
 	Contexts int `json:"contexts"`
 	// histories in LLM prompt
 	Histories int `json:"histories"`
-	// split by ai
-	SplitByModel bool `json:"split_by_model"`
+	Chunk     struct {
+		Embedding string `json:"embedding"`
+		MaxTokens int    `json:"max_tokens"`
+		MinTokens int    `json:"min_tokens"`
+		Overlap   int    `json:"overlap"`
+		Semantic  bool   `json:"semantic"`
+		Type      string `json:"type"`
+	} `json:"chunk"`
 	// reranker
-	Rerank bool `json:"rerank"`
+	Rerank      bool   `json:"rerank"`
+	RerankModel string `json:"rerank_model"`
 }
 
 type Bot struct {
@@ -87,6 +95,28 @@ func (bot *Bot) Delete() error {
 	}
 	err := DB.Delete(bot).Error
 	return err
+}
+
+func (bot *BotSetting) MergeSetting(conf system.SystemConfig) (BotSetting, error) {
+	chunk := bot.Chunk
+	//fmt.Println("before", chunk)
+	if chunk.Embedding == "" {
+		chunk.Embedding = conf.Embedding.Model
+	}
+	if chunk.MaxTokens == 0 {
+		chunk.MaxTokens = conf.Parser.MaxTokens
+	}
+	if chunk.MinTokens == 0 {
+		chunk.MinTokens = conf.Parser.MinTokens
+	}
+	if chunk.Overlap == 0 {
+		chunk.Overlap = conf.Parser.Overlap
+	}
+	if conf.Parser.Semantic {
+		chunk.Semantic = conf.Parser.Semantic
+	}
+	bot.Chunk = chunk
+	return *bot, nil
 }
 
 func BotAccessToken(token string) (*Bot, error) {

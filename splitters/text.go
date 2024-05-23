@@ -1,12 +1,12 @@
-package common
+package splitters
 
 import (
 	"strings"
 	"unicode/utf8"
 
+	"github.com/act-gpt/marino/common"
 	"github.com/act-gpt/marino/config/system"
 	"github.com/act-gpt/marino/types"
-
 	"github.com/go-aie/xslices"
 )
 
@@ -18,16 +18,6 @@ type PreprocessorConfig struct {
 	MinTokens int
 
 	Overlap int
-
-	// MinChunkLenToEmbed is the minimum length in characters.
-	// Chunks with shorter length will be discarded.
-	//MinChunkLenToEmbed int
-
-	// MaxChunkNum is the maximum number of chunks to generate from a text.
-	//MaxChunkNum int
-
-	// MaxChunkNum is the maximum number of chunks to generate from a text.
-
 }
 
 func (cfg *PreprocessorConfig) Init() *PreprocessorConfig {
@@ -41,15 +31,11 @@ func (cfg *PreprocessorConfig) Init() *PreprocessorConfig {
 	if cfg.Overlap == 0 {
 		cfg.Overlap = config.Overlap
 	}
-	/*
-		if cfg.MinChunkLenToEmbed == 0 {
-			cfg.MinChunkLenToEmbed = config.MinChunkLenToEmbed
-		}
-		if cfg.MaxChunkNum == 0 {
-			cfg.MaxChunkNum = config.MaxChunkNum
-		}
-	*/
 	return cfg
+}
+
+type Processor interface {
+	Preprocess(docs ...*types.Document) (map[string][]*types.Chunk, error)
 }
 
 // Preprocessor splits a list of documents into chunks.
@@ -58,45 +44,35 @@ type Preprocessor struct {
 	cfg     *PreprocessorConfig
 }
 
-func NewPreprocessor(cfg *PreprocessorConfig) *Preprocessor {
+func TextPreprocessor(cfg *PreprocessorConfig) *Preprocessor {
 	return &Preprocessor{
 		encoder: Encoder,
 		cfg:     cfg.Init(),
 	}
 }
 
-func (p *Preprocessor) Preprocess(docs ...*types.Document) (map[string][]*types.Chunk, error) {
+func (p *Preprocessor) Preprocess(doc types.Document) (map[string][]*types.Chunk, []string, error) {
 	chunkMap := make(map[string][]*types.Chunk)
-	for _, doc := range docs {
-		docID := doc.ID
-		meta := doc.Metadata
-		if docID == "" {
-			docID = GetUUID()
-		}
-		textChunks, err := p.split(doc.Text)
-		if err != nil {
-			return nil, err
-		}
-		for _, text := range textChunks {
-			chunkMap[docID] = append(chunkMap[docID], &types.Chunk{
-				ID:         GetUUID(),
-				DocumentID: docID,
-				Metadata:   meta,
-				Text:       text,
-			})
-		}
+	docID := doc.ID
+	meta := doc.Metadata
+	if docID == "" {
+		docID = common.GetUUID()
+	}
+	textChunks, err := p.split(doc.Text)
+	if err != nil {
+		return nil, nil, err
+	}
+	for _, text := range textChunks {
+		chunkMap[docID] = append(chunkMap[docID], &types.Chunk{
+			ID:         common.GetUUID(),
+			DocumentID: docID,
+			Metadata:   meta,
+			Text:       text,
+		})
 	}
 
-	return chunkMap, nil
+	return chunkMap, []string{}, nil
 }
-
-/*
-# Constants
-CHUNK_SIZE = 200  # The target size of each text chunk in tokens
-MIN_CHUNK_SIZE_CHARS = 350  # The minimum size of each text chunk in characters
-MIN_CHUNK_LENGTH_TO_EMBED = 5  # Discard chunks shorter than this
-MAX_NUM_CHUNKS = 10000  # The maximum number of chunks to generate from a text
-*/
 
 // split converts the text into chunks.
 //
@@ -176,7 +152,6 @@ func (p *Preprocessor) split(text string) ([]string, error) {
 
 	return chunks, nil
 }
-
 func lastRuneIndex(s string, r rune) int {
 	runes := []rune(s)
 	for i := len(runes) - 1; i >= 0; i-- {

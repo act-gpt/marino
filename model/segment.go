@@ -2,7 +2,6 @@ package model
 
 import (
 	"fmt"
-	"strconv"
 	"time"
 
 	"github.com/act-gpt/marino/common"
@@ -76,33 +75,29 @@ func InitSegments(conf system.SystemConfig) {
 			source VARCHAR,
 			url VARCHAR,
 			sha VARCHAR,
-			embedding vector(` + strconv.Itoa(dimension) + `),
+			embedding vector,
 			created_at TIMESTAMP(3) WITHOUT TIME ZONE DEFAULT NULL,
 			updated_at TIMESTAMP(3) WITHOUT TIME ZONE DEFAULT NULL,
 			PRIMARY KEY (id)
 		  );`
 	DB.Exec(sql)
 	DB.Exec("CREATE INDEX IF NOT EXISTS idx_segments_knowledge_id ON segments (knowledge_id);")
-	/*
-		if c.IndexType == "hnsw" {
-			DB.Exec("CREATE INDEX IF NOT EXISTS idx_segments_embedding ON segments USING hnsw (embedding vector_ip_ops);")
-		} else {
-			DB.Exec("CREATE INDEX IF NOT EXISTS idx_segments_embedding ON segments USING ivfflat (embedding vector_ip_ops) WITH (lists = 100);")
-		}
-	*/
+	DB.Exec("CREATE INDEX IF NOT EXISTS idx_segments_corpus ON segments (corpus);")
 	if c.IndexType == "hnsw" {
-		DB.Exec("CREATE INDEX IF NOT EXISTS idx_segments_embedding ON segments USING hnsw(embedding vector_cosine_ops) WITH (m = 24, ef_construction = 100)")
+		DB.Exec("CREATE INDEX IF NOT EXISTS idx_segments_embedding ON segments USING hnsw(embedding vector_cosine_ops) WITH (m = 16, ef_construction = 64)")
 	} else {
 		DB.Exec("CREATE INDEX IF NOT EXISTS idx_segments_embedding ON segments USING ivfflat (embedding vector_cosine_ops) WITH (lists = 100)")
 	}
 }
 func QueryEmbedding(embedding []float32, corpus string, limit int, score float64) ([]Segment, error) {
-	ebd := pgvector.NewVector(embedding)
-	var result []Segment
+	ebds := pgvector.NewVector(embedding)
+	var results []Segment
 	//err := DB.Raw("SELECT id, knowledge_id, corpus, index, text, sha, (embedding <#> $1) * -1 AS score, created_at, updated_at FROM segments WHERE (embedding <#> $1) * -1 >= $3 AND corpus = $4 ORDER BY score DESC LIMIT $2", ebd, limit, score, corpus).Scan(&result).Error
-	err := DB.Raw("SELECT id, knowledge_id, corpus, index, text, sha, 1 - (embedding <=> $1) AS score, created_at, updated_at FROM segments WHERE corpus = $3 ORDER BY score DESC LIMIT $2", ebd, limit, corpus).Scan(&result).Error
-	fmt.Println(result)
-	return result, err
+	err := DB.Raw("SELECT id, knowledge_id, corpus, index, text, sha, 1 - (embedding <=> $1) AS score, created_at, updated_at FROM segments WHERE corpus = $2 and vector_dims(embedding) = $3 ORDER BY score DESC LIMIT $4", ebds, corpus, len(embedding), limit).Scan(&results).Error
+	for _, item := range results {
+		fmt.Println("retrievel", item.Id, item.Score)
+	}
+	return results, err
 }
 
 func FindSegment(id string) (Segment, error) {

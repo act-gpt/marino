@@ -11,43 +11,34 @@ import (
 	"path/filepath"
 
 	"github.com/act-gpt/marino/config/system"
+	"github.com/act-gpt/marino/types"
 )
 
-// 文档识别结构块
-type Sugmentation struct {
-	Status      bool   `json:"status"`
-	Msg         string `json:"msg"`
-	Filename    string `json:"filename"`     // 唯一 ID
-	ContentType string `json:"content_type"` // 文本
-	Data        string `json:"data"`         // 块类型
-	Text        string `json:"text"`
-}
-
-func Document(filename string) (Sugmentation, error) {
+func Document(filename string) (types.Sugmentation, error) {
 
 	conf := system.Config.Parser
 	reqUrl := conf.Host + conf.DocumentApi
 
 	buff := &bytes.Buffer{}
 	bodyWriter := multipart.NewWriter(buff)
-
+	var sugmentation types.Sugmentation
 	fileWriter, err := bodyWriter.CreateFormFile("file", filepath.Base(filename))
 	if err != nil {
 		fmt.Println("error writing to buffer")
-		return Sugmentation{}, err
+		return sugmentation, err
 	}
 	// open file handle
 	fh, err := os.Open(filename)
 	if err != nil {
 		fmt.Println("error opening file")
-		return Sugmentation{}, err
+		return sugmentation, err
 	}
 	defer fh.Close()
 
 	//iocopy
 	_, err = io.Copy(fileWriter, fh)
 	if err != nil {
-		return Sugmentation{}, err
+		return sugmentation, err
 	}
 
 	contentType := bodyWriter.FormDataContentType()
@@ -59,14 +50,14 @@ func Document(filename string) (Sugmentation, error) {
 
 	if err != nil {
 		fmt.Println("error", err)
-		return Sugmentation{}, err
+		return sugmentation, err
 	}
 	req.Header.Add("Content-Type", contentType)
 	res, err := client.Do(req)
 
 	if err != nil {
 		fmt.Println("error", err)
-		return Sugmentation{}, err
+		return sugmentation, err
 	}
 
 	defer func(Body io.ReadCloser) {
@@ -76,14 +67,12 @@ func Document(filename string) (Sugmentation, error) {
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println("error", err)
-		return Sugmentation{}, err
+		return sugmentation, err
 	}
-
-	var sugmentation Sugmentation
 	err = json.Unmarshal(body, &sugmentation)
 	if err != nil {
 		fmt.Println("error", err)
-		return Sugmentation{}, err
+		return sugmentation, err
 	}
 	return sugmentation, nil
 }

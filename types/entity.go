@@ -112,6 +112,15 @@ type Chunk struct {
 
 type Similarity struct {
 	*Chunk
-
 	Score float64 `json:"score,omitempty"`
+}
+
+// 文档识别结构块
+type Sugmentation struct {
+	Status      bool   `json:"status"`
+	Msg         string `json:"msg"`
+	Filename    string `json:"filename"`     // 唯一 ID
+	ContentType string `json:"content_type"` // 文本
+	Data        string `json:"data"`         // 块类型
+	Text        string `json:"text"`         // markdown
 }

@@ -79,7 +79,6 @@ const Setting = (props) => {
       })
     }catch(e){
     }
-    console.log(init)
     Api.models().then((res)=>{
       const {code, data} = res
       if (code){
@@ -91,6 +90,9 @@ const Setting = (props) => {
       const alias = t('setting.alias', { returnObjects: true })
       Object.keys(data).map((key)=>{
         const node = data[key]
+        if (!node.show){
+          return
+        }
         if(!keys[node.owner]){
             keys[node.owner] = key
             models.push({
@@ -150,7 +152,6 @@ const Setting = (props) => {
   const scoreMarks = {};
   const tempMarks = {};
   const contexts = t('setting.contexts', { returnObjects: true }).map((val, idx)=>{return {label: val, value: idx}})
-  const histories = t('setting.histories', { returnObjects: true }).map((val, idx)=>{return {label: val, value: idx}})
   const temperatures = t('setting.temperatures', { returnObjects: true })
   const model_tip = (<>{t('setting.model_tip', { returnObjects: true }).map((val, idx)=><div key={idx}>{val}</div>)}</>)
   const alert_tip = (<>{t('setting.alert_tip', { returnObjects: true }).map((val, idx)=><div key={idx}>{val}</div>)}</>)
@@ -207,43 +208,21 @@ const Setting = (props) => {
           {
             app.language == "zh-CN" ? <Alert banner message={alert_tip} type="warning" /> : ""
           }
-          <Form.Item style={{ marginBottom: 'auto' }}  help={ <Alert banner message={t('setting.token_help')} type="warning" />  }>
-            <Row wrap={false} gutter={16}>
-                <Col span={12}>
-                  <h5 className='py-2'>
-                    {t('setting.contexts_info')} {' '}
-                    <Tooltip placement='right' title={t('setting.contexts_title')}>
-                      <QuestionCircleOutlined />
-                    </Tooltip>
-                  </h5>
-                  <div ref={ref2}>
-                    <Form.Item name='contexts' rules={rules} >
-                      <Select
-                        defaultValue={setting.contexts}
-                        style={{ width: "100%" }}
-                        onChange={(val)=> console.log(val)}
-                        options={contexts}
-                      />
-                    </Form.Item>
-                  </div>
-                </Col>
-                <Col span={12}>
-                  <h5 className='py-2'>
-                    {t('setting.histories_info')} {' '}
-                    <Tooltip placement='right' title={t('setting.histories_title')}>
-                      <QuestionCircleOutlined />
-                    </Tooltip>
-                  </h5>
-                  <Form.Item name='histories' rules={rules}>
-                    <Select
-                        defaultValue={setting.histories}
-                        style={{ width: "100%" }}
-                        onChange={(val)=> console.log(val)}
-                        options={histories}
-                      />
-                  </Form.Item>
-                </Col>
-            </Row>
+          <Form.Item style={{ marginBottom: 'auto' }}>
+            <h5 className='py-2'>
+              {t('setting.contexts_info')} {' '}
+              <Tooltip placement='right' title={t('setting.contexts_title')}>
+                <QuestionCircleOutlined />
+              </Tooltip>
+            </h5>
+              <Form.Item name='contexts' rules={rules} >
+                <Select
+                  defaultValue={setting.contexts}
+                  style={{ width: "100%" }}
+                  onChange={(val)=> console.log(val)}
+                  options={contexts}
+                />
+              </Form.Item>
           </Form.Item>
           <h5 className='py-2'>
             {t('setting.welcome')}{' '}

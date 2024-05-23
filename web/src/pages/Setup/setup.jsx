@@ -109,12 +109,6 @@ const Setup = (props) => {
             <Form.Item name={["Db", "Redis"]} label={t("setup.redis")} help={t("setup.redis_help")}>
               <Input />
             </Form.Item>
-            <Form.Item name={["Db", "Dimension"]} label={t("setup.dimension")} help={t("setup.dimension_help")}>
-              <Radio.Group buttonStyle="solid" onChange={ ({target: { value }} )=> setMore(value==1536)}>
-                <Radio.Button value={768}>ACT GPT</Radio.Button>
-                <Radio.Button value={1536}>Open AI</Radio.Button>
-              </Radio.Group>
-            </Form.Item>
             <Alert banner message={t('setup.banner', { returnObjects: true, url: url }).map((val, idx)=><div key={idx} dangerouslySetInnerHTML={{ __html: val }}/>)} type="info" />
             {
               more ? (<>

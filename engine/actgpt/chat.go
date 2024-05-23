@@ -67,6 +67,7 @@ func (c *Client) createRequest(request types.ChatCompletionRequest) (*http.Respo
 		key = c.AccessKey
 	}
 	url := strings.TrimRight(host, "/") + "/v1" + "/chat/completions"
+
 	body, err := json.Marshal(request)
 	if err != nil {
 		return nil, fmt.Errorf("error with Marshal json: %v", err)
@@ -200,10 +201,7 @@ func (c *Client) CompletionStream(ctx context.Context, msgs []types.ChatModelMes
 			data = data[6:]
 			var response types.ChatCompletionStreamResponse
 			if err := json.Unmarshal([]byte(data), &response); err != nil {
-				if data == "[DONE]" {
-					continue
-				}
-				return fmt.Errorf("error unmarshaling actgpt llm parse:  %w", err)
+				continue
 			}
 			cb(response)
 		}

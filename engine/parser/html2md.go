@@ -1,26 +1,19 @@
-package common
+package parser
 
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"io"
 	"net/http"
 
 	"github.com/act-gpt/marino/config/system"
 )
 
-type TextReq struct {
-	Status bool   `json:"status"`
-	Msg    string `json:"msg"`
-	Data   string `json:"data"`
-}
+func Html2md(html string) (string, error) {
 
-func Html2text(html string) (string, error) {
-
-	method := "POST"
 	conf := system.Config.Parser
-	reqUrl := conf.Host + conf.TextApi
-
+	reqUrl := conf.Host + conf.MarkdownApi
 	item := TextReq{
 		Data: html,
 	}
@@ -30,9 +23,10 @@ func Html2text(html string) (string, error) {
 	}
 
 	client := &http.Client{}
-	req, err := http.NewRequest(method, reqUrl, bytes.NewReader(body))
+	req, err := http.NewRequest(http.MethodPost, reqUrl, bytes.NewReader(body))
 
 	if err != nil {
+		fmt.Println(err)
 		return "", err
 	}
 
@@ -40,6 +34,7 @@ func Html2text(html string) (string, error) {
 	res, err := client.Do(req)
 
 	if err != nil {
+		fmt.Println(err)
 		return "", err
 	}
 
@@ -49,12 +44,14 @@ func Html2text(html string) (string, error) {
 
 	body, err = io.ReadAll(res.Body)
 	if err != nil {
+		fmt.Println(err)
 		return "", err
 	}
 
 	var text TextReq
 	err = json.Unmarshal(body, &text)
 	if err != nil {
+		fmt.Println(err)
 		return "", err
 	}
 	return text.Data, nil

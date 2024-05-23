@@ -12,6 +12,7 @@ import (
 	"github.com/act-gpt/marino/engine/moderation"
 	"github.com/act-gpt/marino/engine/openai"
 	"github.com/act-gpt/marino/engine/parser"
+	"github.com/act-gpt/marino/engine/reranker"
 	"github.com/act-gpt/marino/model"
 	"github.com/act-gpt/marino/types"
 
@@ -47,18 +48,26 @@ func New(bot model.BotSetting) (LLM, error) {
 	}
 }
 
-func Embedding(input []string) (copenai.EmbeddingResponse, error) {
-	return embedding.Request(input)
+func Embedding(input []string, model string) (copenai.EmbeddingResponse, error) {
+	return embedding.Request(input, model)
 }
 
 func Moderation(content string, bot string, userId string) (int, error) {
 	return moderation.Request(content, bot, userId)
 }
 
-func Document(filename string) (parser.Sugmentation, error) {
+func Document(filename string) (types.Sugmentation, error) {
 	return parser.Document(filename)
 }
 
-func Html2text(html string) (string, error) {
+func Reranker(query string, documents []string, model string, top int) (reranker.RerankerResponse, error) {
+	return reranker.Reranker(query, documents, model, top)
+}
+
+func Html2Text(html string) (string, error) {
 	return parser.Html2text(html)
+}
+
+func Html2Markdown(html string) (string, error) {
+	return parser.Html2md(html)
 }

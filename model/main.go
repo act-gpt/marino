@@ -122,8 +122,11 @@ func InitDB(source string) (err error) {
 	}
 
 	DB = db
+
 	if err := DB.First(&User{}).Error; err == nil {
 		return nil
+	} else {
+		fmt.Println(err)
 	}
 
 	if err = db.AutoMigrate(&User{}); err != nil {

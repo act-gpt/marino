@@ -18,11 +18,10 @@ type EmbeddingRequest struct {
 	Input []string `json:"input"`
 }
 
-func Request(input []string) (openai.EmbeddingResponse, error) {
+func Request(input []string, model string) (openai.EmbeddingResponse, error) {
 
 	conf := system.Config.Embedding
 	api := conf.Host + conf.Api
-	model := conf.Model
 	key := conf.AccessKey
 
 	if api == "" || model == "" {

@@ -89,7 +89,7 @@ func CheckEmbedding(c *gin.Context) {
 	conf.Host = req.Host
 	conf.Model = req.Model
 	conf.Api = req.Api
-	res, err := engine.Embedding([]string{"hello"})
+	res, err := engine.Embedding([]string{"hello"}, req.Model)
 	code := 0
 	msg := "Ok"
 	if err != nil {
@@ -395,12 +395,10 @@ func SetSystemConfig(c *gin.Context) {
 	}
 
 	// reset to actgpt
-	if config.Db.Dimension == 768 {
-		config.Embedding.Host = config.ActGpt.Host
-		config.Embedding.AccessKey = config.ActGpt.AccessKey
-		config.Embedding.Model = "act-gpt-001"
-		config.Embedding.Api = "/v1/embeddings"
-	}
+	config.Embedding.Host = config.ActGpt.Host
+	config.Embedding.AccessKey = config.ActGpt.AccessKey
+	config.Embedding.Model = "act-embed-001"
+	config.Embedding.Api = "/v1/embeddings"
 
 	// Update or Insert
 	if !inited {

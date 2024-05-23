@@ -198,21 +198,21 @@ func (c *Client) buildConfig() openai.ClientConfig {
 	if conf.Type == "azure" {
 		config = openai.DefaultAzureConfig(conf.AccessKey, conf.Host)
 		config.AzureModelMapperFunc = func(model string) string {
-			m := strings.Replace(model, ".", "", -1)
-			if !strings.HasSuffix(m, "turbo") {
-				if strings.HasPrefix(m, "gpt-4") {
-					m = "gpt-4-turbo"
-				}
-				if strings.HasPrefix(m, "gpt-35") {
-					m = "gpt-35-turbo"
-				}
+			azureModelMapping := map[string]string{
+				"gpt-3.5-turbo":        "gpt-35-turbo",
+				"gpt-4":                "gpt-4",
+				"gpt-4o":               "gpt-4o",
+				"gpt-4-turbo":          "gpt-4-turbo",
+				"gpt-4-vision-preview": "gpt-4-vision",
+				"gpt-4-visio":          "gpt-4-vision",
 			}
-			return m
+			return azureModelMapping[model]
 		}
 		if conf.APIVersion != "" {
 			config.APIVersion = conf.APIVersion
 		}
 	}
+	fmt.Println("config", config)
 	return config
 }
 

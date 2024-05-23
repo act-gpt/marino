@@ -94,7 +94,7 @@ const Edit = (props) => {
           const res = await Api.put_knowledge(values.id, values)
           const { success, data } = res
           if (success) {
-            msg.success(t('knowledge.success'))
+            msg.success(t('save_success'))
             knowledgeChange(data)
           } else {
             msg.error(t('process_fail'))

@@ -1,9 +1,11 @@
 package events
 
 import (
+	"fmt"
+
 	"github.com/act-gpt/marino/api"
-	"github.com/act-gpt/marino/common"
 	"github.com/act-gpt/marino/config/system"
+	"github.com/act-gpt/marino/engine"
 	"github.com/act-gpt/marino/engine/moderation"
 	"github.com/act-gpt/marino/model"
 	"github.com/act-gpt/marino/types"
@@ -41,14 +43,16 @@ func update(knowledge *model.Knowledge, insert bool) {
 	meta := &types.Metadata{
 		Corpus: bot.Corpus,
 	}
-	text, err := common.Html2text(knowledge.Content)
+
+	text, err := engine.Html2Markdown(knowledge.Content)
 	if err != nil {
 		knowledge.Status = 0
 		knowledge.Update()
+		fmt.Println(err)
 		return
 	}
 
-	document := &types.Document{
+	document := types.Document{
 		ID:       knowledge.Id,
 		Text:     text,
 		Metadata: *meta,
@@ -69,6 +73,7 @@ func update(knowledge *model.Knowledge, insert bool) {
 	err = api.Client.Insert(document, insert, bot)
 	if err != nil {
 		knowledge.Status = 0
+		fmt.Println(err)
 	} else {
 		knowledge.Status = 1
 	}

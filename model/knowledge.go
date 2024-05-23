@@ -18,8 +18,9 @@ type Knowledge struct {
 	UserId   string `json:"user_id" gorm:";index"`
 	Name     string `json:"name" gorm:"not null;"`
 	Content  string `json:"content" gorm:"type:text"`
-	Ext      string `json:"ext"`
-	Path     string `json:"path" gorm:"index"`
+	//Markdown string `json:"markdown" gorm:"-:all"`
+	Ext  string `json:"ext"`
+	Path string `json:"path" gorm:"index"`
 	// 0 error, 1 success, 2 processing, 3 security locked, 4 over quota
 	Status     int            `json:"status" gorm:"type:int;default:1"`
 	Sha        string         `json:"sha"`

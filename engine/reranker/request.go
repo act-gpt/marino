@@ -25,12 +25,12 @@ type RerankerResponse struct {
 	} `json:"data"`
 }
 
-func Reranker(query string, documents []string, top int) (RerankerResponse, error) {
+func Reranker(query string, documents []string, model string, top int) (RerankerResponse, error) {
 
 	conf := system.Config.Reranker
 	reqUrl := conf.Host + conf.Api
 
-	model := conf.Model
+	//model := conf.Model
 	key := conf.AccessKey
 
 	item := RerankerRequest{

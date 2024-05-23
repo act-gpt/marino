@@ -6,7 +6,7 @@ VERSION=$(shell cat VERSION)
 
 .PHONY: all test clean web
 
-all: test build ## Build and run tests
+all: clean test build ## Build and run tests
 
 test: ## Run unit tests
 	go test ./...

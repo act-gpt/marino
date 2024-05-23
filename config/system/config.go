@@ -77,7 +77,7 @@ type SystemConfig struct {
 
 	// act-gpt
 	ActGpt struct {
-		Host string `json:",optional,default=https://maas.act-gpt.com"`
+		Host string `json:",optional,default=http://0.0.0.0:8000"`
 		//
 		AccessKey string `json:",optional,default="`
 		// 模型
@@ -85,7 +85,7 @@ type SystemConfig struct {
 	}
 
 	Embedding struct {
-		Host      string `json:",optional,default=https://maas.act-gpt.com"`
+		Host      string `json:",optional,default=http://0.0.0.0:8000"`
 		Api       string `json:",optional,default=/v1/embeddings"`
 		Model     string `json:",optional,default=act-embed-001"`
 		AccessKey string `json:",optional,default="`
@@ -98,20 +98,26 @@ type SystemConfig struct {
 		AccessKey string `json:",optional,default="`
 	}
 
+	Chunk struct {
+		Host      string `json:",optional,default=http://0.0.0.0:8000"`
+		Api       string `json:",optional,default=/v1/chunks"`
+		AccessKey string `json:",optional,default="`
+	}
+
 	Baidu struct {
 		ClientId     string `json:",optional,default="`
 		ClientSecret string `json:",optional,default="`
 	}
 
 	Parser struct {
-		Host               string `json:",optional,default=https://parser.act-gpt.com"`
-		TextApi            string `json:",optional,default=/v1/html2text"`
-		DocumentApi        string `json:",optional,default=/v1/extract"`
-		ChunkTokenNum      int    `json:",optional,default=500"`
-		MinChunkCharNum    int    `json:",optional,default=400"`
-		MaxChunkNum        int    `json:",optional,default=550"`
-		MinChunkLenToEmbed int    `json:",optional,default=10"`
-		ChunkOverlap       int    `json:",optional,default=150"`
+		Host        string `json:",optional,default=http://0.0.0.0:12345"`
+		TextApi     string `json:",optional,default=/v1/html2text"`
+		MarkdownApi string `json:",optional,default=/v1/html2md"`
+		DocumentApi string `json:",optional,default=/v1/extract"`
+		MaxTokens   int    `json:",optional,default=768"`
+		MinTokens   int    `json:",optional,default=20"`
+		Overlap     int    `json:",optional,default=350"`
+		Semantic    bool   `json:",optional,default=false"`
 	}
 }
 

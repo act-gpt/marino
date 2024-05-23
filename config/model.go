@@ -11,6 +11,7 @@ type MODEL struct {
 	Name     string `json:"name"`
 	Owner    string `json:"owner"`
 	Disabled bool   `json:"disabled"`
+	Show     bool   `json:"show"`
 	Length   int    `json:"length"`
 }
 
@@ -21,6 +22,7 @@ var MODELS = map[string]interface{}{
 		Name:     "completions",
 		Owner:    "baidu",
 		Disabled: false,
+		Show:     true,
 		Length:   1024 * 4,
 	},
 	// ERNIE-Bot-8K
@@ -29,6 +31,7 @@ var MODELS = map[string]interface{}{
 		Name:     "ernie_bot_8k",
 		Owner:    "baidu",
 		Disabled: false,
+		Show:     true,
 		Length:   1024 * 8,
 	},
 	// ERNIE-Bot 4.0,
@@ -37,6 +40,7 @@ var MODELS = map[string]interface{}{
 		Name:     "completions_pro",
 		Owner:    "baidu",
 		Disabled: false,
+		Show:     true,
 		Length:   1024 * 4,
 	},
 	// act-gpt-001
@@ -45,34 +49,46 @@ var MODELS = map[string]interface{}{
 		Name:     "act-gpt-001",
 		Owner:    "actgpt",
 		Disabled: false,
+		Show:     true,
 		Length:   1024 * 8,
 	},
 	// act-gpt-002
-	// 0.006 k/tokens, 0.006 k/tokens
 	"act-gpt-002": &MODEL{
 		Name:     "act-gpt-002",
 		Owner:    "actgpt",
 		Disabled: false,
+		Show:     true,
 		Length:   1024 * 32,
 	},
-	// act-gpt-003
-	// 0.012 k/tokens, 0.012 k/tokens
+	// 0.024 k/tokens, 0.024 k/tokens
 	"act-gpt-003": &MODEL{
 		Name:     "act-gpt-003",
 		Owner:    "actgpt",
 		Disabled: false,
+		Show:     true,
+		Length:   1024 * 64,
+	},
+	// 0.012 k/tokens, 0.012 k/tokens
+	"act-gpt-100": &MODEL{
+		Name:     "act-gpt-100",
+		Owner:    "actgpt",
+		Disabled: false,
+		Show:     false,
 		Length:   1024 * 32,
 	},
+	// act-gpt-003
 	"gpt-3.5-turbo": &MODEL{
 		Name:     "gpt-3.5-turbo",
 		Owner:    "openai",
 		Disabled: false,
+		Show:     true,
 		Length:   1024 * 16,
 	},
 	"gpt-4-turbo": &MODEL{
-		Name:     "gpt-4-1106-preview",
+		Name:     "gpt-4-turbo",
 		Owner:    "openai",
-		Disabled: true,
+		Disabled: false,
+		Show:     true,
 		Length:   1024 * 128,
 	},
 }
