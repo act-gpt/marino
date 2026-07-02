@@ -67,7 +67,7 @@ func (c *Client) createRequest(request types.ChatCompletionRequest) (*http.Respo
 		key = c.AccessKey
 	}
 	url := strings.TrimRight(host, "/") + "/v1" + "/chat/completions"
-
+	fmt.Print(url)
 	body, err := json.Marshal(request)
 	if err != nil {
 		return nil, fmt.Errorf("error with Marshal json: %v", err)
@@ -195,6 +195,7 @@ func (c *Client) CompletionStream(ctx context.Context, msgs []types.ChatModelMes
 			return ctx.Err()
 		default:
 			data := scanner.Text()
+			//fmt.Println(data)
 			if len(data) < 6 {
 				continue
 			}

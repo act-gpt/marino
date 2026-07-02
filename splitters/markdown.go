@@ -1,6 +1,7 @@
 package splitters
 
 import (
+	"fmt"
 	"sort"
 	"strings"
 
@@ -134,7 +135,7 @@ func (p *MdPreprocess) Preprocess(doc types.Document, bot model.BotSetting) (map
 	if err != nil {
 		return nil, nil, err
 	}
-	//fmt.Println("Chuncks size: ", len(textChunks))
+	fmt.Println("markdown chuncks size: ", len(textChunks))
 	for _, textChunk := range textChunks {
 		id := common.GetUUID()
 		// return chunks

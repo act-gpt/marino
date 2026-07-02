@@ -6,6 +6,7 @@ import (
 
 	"github.com/act-gpt/marino/common"
 	"github.com/act-gpt/marino/config/system"
+	"github.com/act-gpt/marino/model"
 	"github.com/act-gpt/marino/types"
 	"github.com/go-aie/xslices"
 )
@@ -51,10 +52,15 @@ func TextPreprocessor(cfg *PreprocessorConfig) *Preprocessor {
 	}
 }
 
-func (p *Preprocessor) Preprocess(doc types.Document) (map[string][]*types.Chunk, []string, error) {
+func (p *Preprocessor) Preprocess(doc types.Document, bot model.BotSetting) (map[string][]*types.Chunk, []string, error) {
 	chunkMap := make(map[string][]*types.Chunk)
 	docID := doc.ID
 	meta := doc.Metadata
+
+	//p.cfg.MaxTokens = bot.Chunk.MaxTokens
+	//p.cfg.MinTokens = bot.Chunk.MinTokens
+	//p.cfg.Overlap = bot.Chunk.Overlap
+
 	if docID == "" {
 		docID = common.GetUUID()
 	}
@@ -119,23 +125,17 @@ func (p *Preprocessor) split(text string) ([]string, error) {
 			// Truncate the chunk text at the punctuation mark.
 			chunkText = string([]rune(chunkText)[:lastPuncIdx+1])
 		}
-		/*
-			if len(runes)-i < p.cfg.ChunkOverlap {
-				val := chunks[len(chunks)-1]
-				fmt.Println(val + string(chunkRunes))
-			}
-		*/
+
 		// 把换行符都去掉？
 		trimmedChunkText := strings.TrimSpace(strings.ReplaceAll(chunkText, "\n", " "))
-		//trimmedChunkText := strings.TrimSpace(chunkText)
 		if utf8.RuneCountInString(trimmedChunkText) > p.cfg.MinTokens {
 			chunks = append(chunks, trimmedChunkText)
 		}
-		if i > len(runes)-p.cfg.MinTokens {
-			i += utf8.RuneCountInString(chunkText)
-		} else {
-			i += utf8.RuneCountInString(chunkText) - p.cfg.Overlap
+
+		if utf8.RuneCountInString(trimmedChunkText) > p.cfg.Overlap {
+			i += utf8.RuneCountInString(trimmedChunkText) - p.cfg.Overlap
 		}
+
 		//chunkNum += 1
 	}
 

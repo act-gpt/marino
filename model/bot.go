@@ -22,7 +22,8 @@ type BotSetting struct {
 	Model  string `json:"model"`
 	Avatar string `json:"avatar"`
 	// Custome prompt
-	Prompt string `json:"prompt"`
+	Prompt     string `json:"prompt"`
+	Moderation bool   `json:"moderation"`
 	// Welcome message
 	Welcome     string  `json:"welcome"`
 	Description string  `json:"description"`
@@ -99,7 +100,6 @@ func (bot *Bot) Delete() error {
 
 func (bot *BotSetting) MergeSetting(conf system.SystemConfig) (BotSetting, error) {
 	chunk := bot.Chunk
-	//fmt.Println("before", chunk)
 	if chunk.Embedding == "" {
 		chunk.Embedding = conf.Embedding.Model
 	}
@@ -111,9 +111,6 @@ func (bot *BotSetting) MergeSetting(conf system.SystemConfig) (BotSetting, error
 	}
 	if chunk.Overlap == 0 {
 		chunk.Overlap = conf.Parser.Overlap
-	}
-	if conf.Parser.Semantic {
-		chunk.Semantic = conf.Parser.Semantic
 	}
 	bot.Chunk = chunk
 	return *bot, nil

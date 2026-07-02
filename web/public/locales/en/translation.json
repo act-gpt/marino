@@ -280,6 +280,8 @@
       "act-gpt-001": "ActGPT-001",
       "act-gpt-002": "ActGPT-002",
       "act-gpt-003": "ActGPT-003",
+      "deepseek-chat": "Deepseek",
+      "qwen-chat": "Qwen",
       "gpt-3.5-turbo": "GPT-3.5 Turbo",
       "gpt-4-turbo": "GPT-4 Turbo",
       "gpt-4-1106-preview": "GPT-4 Turbo",

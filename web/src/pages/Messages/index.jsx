@@ -9,7 +9,6 @@ import actions from '@/redux/actions'
 
 import moment from 'moment'
 
-
 const Messages = (props) => {
   const { bot } = props
   const { t } = useTranslation()
@@ -77,14 +76,14 @@ const Messages = (props) => {
       }
     },
     {
-        title: t("message.columns.lft"),
-        dataIndex: 'llm_first_time',
-        key: 'llm_first_time',
-        align: 'left',
-        width: 120,
-        render: (r, item) => {
-          return r.toFixed(2) + ' s'
-        }
+      title: t('message.columns.lft'),
+      dataIndex: 'llm_first_time',
+      key: 'llm_first_time',
+      align: 'left',
+      width: 120,
+      render: (r, item) => {
+        return r.toFixed(2) + ' s'
+      }
     },
     {
       title: t('message.columns.llm'),
@@ -105,48 +104,79 @@ const Messages = (props) => {
       render: (r) => {
         return r ? moment(r).format('YYYY-MM-DD HH:mm') : '-'
       }
+    },
+    {
+      title: t('message.columns.flag'),
+      dataIndex: 'flag',
+      key: 'flag',
+      width: 120,
+      render: (r, item) => {
+        return (
+          <a
+            href='#'
+            onClick={async (e) => {
+              e.preventDefault()
+              const res = await Api.flag(item.id, {
+                flag: !r
+              })
+              const { success, code, data, message } = res
+              if (success) {
+                messageApi.open({
+                  type: 'success',
+                  content: t('save_success')
+                })
+              }
+            }}
+          >
+            {r ? '已标记' : '未标记'}{' '}
+          </a>
+        )
+      }
     }
   ]
   return (
     <div className='settings-container px-5 pt-4'>
       {contextHolder}
       <div>
-      {
-        <Table
-          className='textColor'
-          rowKey='id'
-          pagination={{
-            current: params.page,
-            defaultPageSize: params.size,
-            total: params.total,
-            hideOnSinglePage: true,
-            onChange: (page, size) => {
-              getData(page, size)
-            }
-          }}
-          expandable={{
-            expandedRowRender: (record) => (
-              <div className='ml-2'>
-                <Row wrap={false} className='py-2'>
-                  <Col flex='80px'>
-                    <h6>{t('message.columns.question')}</h6>
-                  </Col>
-                  <Col flex='auto'>{record.question}</Col>
-                </Row>
-                <Row wrap={false} className='py-2'>
-                  <Col flex='80px'>
-                    <h6>{t('message.columns.answer')}</h6>
-                  </Col>
-                  <Col flex='auto'><Markdown>{record.answer}</Markdown></Col>
-                </Row>
-              </div>
-            ),
-            expandIcon: ({ expanded, onExpand, record }) => (expanded ? <DownOutlined style={{color: "#bfbfbf"}} onClick={(e) => onExpand(record, e)} /> : <RightOutlined style={{color: "#bfbfbf"}}  onClick={(e) => onExpand(record, e)} />)
-          }}
-          columns={columns}
-          dataSource={data}
-        />
-      }
+        {
+          <Table
+            className='textColor'
+            rowKey='id'
+            pagination={{
+              current: params.page,
+              defaultPageSize: params.size,
+              total: params.total,
+              hideOnSinglePage: true,
+              onChange: (page, size) => {
+                getData(page, size)
+              }
+            }}
+            expandable={{
+              expandedRowRender: (record) => (
+                <div className='ml-2'>
+                  <Row wrap={false} className='py-2'>
+                    <Col flex='80px'>
+                      <h6>{t('message.columns.question')}</h6>
+                    </Col>
+                    <Col flex='auto'>{record.question}</Col>
+                  </Row>
+                  <Row wrap={false} className='py-2'>
+                    <Col flex='80px'>
+                      <h6>{t('message.columns.answer')}</h6>
+                    </Col>
+                    <Col flex='auto'>
+                      <Markdown>{record.answer}</Markdown>
+                    </Col>
+                  </Row>
+                </div>
+              ),
+              expandIcon: ({ expanded, onExpand, record }) =>
+                expanded ? <DownOutlined style={{ color: '#bfbfbf' }} onClick={(e) => onExpand(record, e)} /> : <RightOutlined style={{ color: '#bfbfbf' }} onClick={(e) => onExpand(record, e)} />
+            }}
+            columns={columns}
+            dataSource={data}
+          />
+        }
       </div>
     </div>
   )

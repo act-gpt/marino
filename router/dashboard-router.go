@@ -93,6 +93,7 @@ func SetDashboardRouter(router *gin.Engine) {
 				botRoute.POST("/", controller.CreateBot)
 				botRoute.POST("/template", controller.CreateBot)
 				botRoute.PUT("/:id", controller.UpdateBot)
+				botRoute.POST("/messages/flag/:id", controller.Flag)
 			}
 			botRoute.Use(middleware.OwnerAuth())
 			{

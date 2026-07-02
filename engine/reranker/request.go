@@ -39,7 +39,6 @@ func Reranker(query string, documents []string, model string, top int) (Reranker
 		Query:     query,
 		Documents: documents,
 	}
-
 	body, err := json.Marshal(item)
 	if err != nil {
 		return RerankerResponse{}, err

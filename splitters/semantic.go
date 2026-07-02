@@ -71,9 +71,9 @@ func (p *SemanticPreprocess) request(doc string, setting model.BotSetting) ([]st
 		Embedding string `json:"embedding"`
 		MaxTokens int    `json:"max_tokens"`
 		MinTokens int    `json:"min_tokens"`
-		Input     string `json:"input"`
 		Overlap   int    `json:"overlap"`
 		Semantic  bool   `json:"semantic"`
+		Input     string `json:"input"`
 	}{
 		Embedding: llm,
 		MaxTokens: max,
@@ -93,7 +93,6 @@ func (p *SemanticPreprocess) request(doc string, setting model.BotSetting) ([]st
 		fmt.Println(err)
 		return nil, nil, err
 	}
-
 	req.Header.Add("Content-Type", "application/json")
 	req.Header.Add("Authorization", "Bearer "+key)
 	res, err := client.Do(req)
@@ -112,6 +111,7 @@ func (p *SemanticPreprocess) request(doc string, setting model.BotSetting) ([]st
 		fmt.Println(err)
 		return nil, nil, err
 	}
+	fmt.Printf("res:%s\n", string(body))
 	type Res struct {
 		Data struct {
 			Segments []string `json:"segments"`
@@ -124,5 +124,6 @@ func (p *SemanticPreprocess) request(doc string, setting model.BotSetting) ([]st
 		fmt.Println("error", err)
 		return nil, nil, err
 	}
+	fmt.Printf("Segments len:%d\n", len(resp.Data.Segments))
 	return resp.Data.Segments, resp.Data.Codes, nil
 }

@@ -4,9 +4,7 @@ import (
 	"fmt"
 
 	"github.com/act-gpt/marino/api"
-	"github.com/act-gpt/marino/config/system"
 	"github.com/act-gpt/marino/engine"
-	"github.com/act-gpt/marino/engine/moderation"
 	"github.com/act-gpt/marino/model"
 	"github.com/act-gpt/marino/types"
 )
@@ -59,16 +57,16 @@ func update(knowledge *model.Knowledge, insert bool) {
 	}
 
 	// content audit for Chinese
-	if system.Config.Moderation.CheckContent {
-		for _, item := range Chunks(text, 5000) {
-			code, err := moderation.Request(item, knowledge.OrgId+":"+knowledge.UserId, knowledge.BotId)
-			if err != nil || code != 200 {
-				knowledge.Status = 3
-				knowledge.Update()
-				return
-			}
-		}
-	}
+	// if system.Config.Moderation.CheckContent {
+	// 	for _, item := range Chunks(text, 5000) {
+	// 		code, err := moderation.Request(item, knowledge.BotId, knowledge.UserId)
+	// 		if err != nil || code != 200 {
+	// 			knowledge.Status = 3
+	// 			knowledge.Update()
+	// 			return
+	// 		}
+	// 	}
+	// }
 	// embedding document
 	err = api.Client.Insert(document, insert, bot)
 	if err != nil {

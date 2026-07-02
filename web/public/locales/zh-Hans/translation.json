@@ -191,10 +191,11 @@
       "answer": "答案",
       "feedback": "用户反馈",
       "feedback_desc": "不喜欢 / 喜欢",
-      "tokens": "电量",
+      "tokens": "Tokens",
       "lft": "等待时间",
       "llm": "大模型时间",
-      "time": "创建时间"
+      "time": "创建时间",
+      "flag": "标记"
     }
   },
   "setting":{
@@ -272,6 +273,8 @@
       "act-gpt-001": "ActGPT-001",
       "act-gpt-002": "ActGPT-002",
       "act-gpt-003": "ActGPT-003",
+      "deepseek-chat": "Deepseek",
+      "qwen-chat": "Qwen",
       "gpt-3.5-turbo": "GPT-3.5 Turbo",
       "gpt-4-turbo": "GPT-4 Turbo",
       "gpt-4-1106-preview": "GPT-4 Turbo",

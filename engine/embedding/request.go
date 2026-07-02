@@ -74,6 +74,9 @@ func Request(input []string, model string) (openai.EmbeddingResponse, error) {
 		fmt.Println(err)
 		return openai.EmbeddingResponse{}, err
 	}
+	if res.StatusCode < http.StatusOK || res.StatusCode >= http.StatusMultipleChoices {
+		return openai.EmbeddingResponse{}, fmt.Errorf("embedding request failed with status %d: %s", res.StatusCode, string(body))
+	}
 	var embedding openai.EmbeddingResponse
 	err = json.Unmarshal(body, &embedding)
 	if err != nil {

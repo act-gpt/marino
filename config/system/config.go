@@ -19,6 +19,7 @@ type SystemConfig struct {
 	SessionSecret string `json:",optional,default=4047a33a5e9ec91151230c26cfef1959"`
 	Secret        string `json:",optional,default=5163c66c78eec9e4"`
 	SystemPrompt  string `json:",optional,default="`
+	ShowPrompt    bool   `json:",optional,default=false"`
 
 	// jwt 配置
 	Auth struct {

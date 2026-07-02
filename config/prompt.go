@@ -26,6 +26,8 @@ Assistant: {{.Answer}}
 
 var SYSTEM_PROMPT = `You are helpful assistant designed for Q&A system and trained by ACT GPT. Answer must according to the language of the user's question with markdown format. `
 
+var TRANSLATE_TEMPLATE = `translate{{ if gt (len .Source) 0}} from {{.Source}}{{end}} to ${.Target}`
+
 // https://twitter.com/dotey/status/1740145227682193667
 var COMPLETION_PROMPT = `
 
@@ -62,11 +64,12 @@ var RECOMMAND_PROMPT = `Context information is below.
 {{.Context}}
 ---------------------
 
-Given the context information and not prior knowledge.
-generate only questions based on the below query.
+Given the context information and not prior knowledge, generate only questions based on the below query.
 
-You are a Professor. Your task is to setup {{.Total}} questions for an upcoming quiz/examination. The questions should be diverse in nature across the document. The questions should not contain options, not start with Q1/ Q2. Your quiz must according to the language of the context information.
-Restrict the questions to the context information provided.`
+You are a Professor. Your task is to setup 3 questions for an upcoming quiz/examination. The questions should be diverse in nature across the document. The questions should not contain options, not start with Q1/ Q2. Your quiz must according to the language of the context information.
+Restrict the questions to the context information provided. output format is JSON:
+
+[{"question": string}]`
 
 var RECALL_PROMPT = `You are a professor, and you will read and deeply understand the chat records I gave you, and give me one question that Humman users really want to ask. Only provided question, do not explain it.
 

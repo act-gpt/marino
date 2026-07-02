@@ -103,6 +103,7 @@ func CheckConnection(source string) (bool, error) {
 
 func InitDB(source string) (err error) {
 	var db *gorm.DB
+
 	if source == "" {
 		return nil
 	}
@@ -116,6 +117,7 @@ func InitDB(source string) (err error) {
 		PrepareStmt: true,
 		Logger:      log,
 	})
+
 	if err != nil {
 		logx.Error(fmt.Sprintf("\033[31;1;4mDB access denied: %s\033[0m", err.Error()))
 		return err
@@ -123,10 +125,9 @@ func InitDB(source string) (err error) {
 
 	DB = db
 
-	if err := DB.First(&User{}).Error; err == nil {
-		return nil
-	} else {
+	if err := db.First(&User{}).Error; err != nil {
 		fmt.Println(err)
+		return nil
 	}
 
 	if err = db.AutoMigrate(&User{}); err != nil {

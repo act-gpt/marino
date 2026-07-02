@@ -94,9 +94,9 @@ func QueryEmbedding(embedding []float32, corpus string, limit int, score float64
 	var results []Segment
 	//err := DB.Raw("SELECT id, knowledge_id, corpus, index, text, sha, (embedding <#> $1) * -1 AS score, created_at, updated_at FROM segments WHERE (embedding <#> $1) * -1 >= $3 AND corpus = $4 ORDER BY score DESC LIMIT $2", ebd, limit, score, corpus).Scan(&result).Error
 	err := DB.Raw("SELECT id, knowledge_id, corpus, index, text, sha, 1 - (embedding <=> $1) AS score, created_at, updated_at FROM segments WHERE corpus = $2 and vector_dims(embedding) = $3 ORDER BY score DESC LIMIT $4", ebds, corpus, len(embedding), limit).Scan(&results).Error
-	for _, item := range results {
-		fmt.Println("retrievel", item.Id, item.Score)
-	}
+	//for _, item := range results {
+	//fmt.Println("retrievel", item.Id, item.Score)
+	//}
 	return results, err
 }
 

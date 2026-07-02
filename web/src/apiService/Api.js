@@ -16,11 +16,11 @@ export default {
   },
 
   check(type, body) {
-    return request(apiPath + 'check', 'POST', {type}, body)
+    return request(apiPath + 'check', 'POST', { type }, body)
   },
 
-  banner (lang) {
-    return request('https://cdn.act-gpt.com/config/banner' + lang + ".json", 'GET')
+  banner(lang) {
+    return request('https://cdn.act-gpt.com/config/banner' + lang + '.json', 'GET')
   },
 
   config() {
@@ -31,8 +31,12 @@ export default {
     return request(apiPath + 'config', 'POST', {}, body)
   },
 
+  flag(id, body) {
+    return request(apiPath + 'bots/messages/flag/' + id, 'POST', {}, body)
+  },
+
   integrity(url) {
-    return request(apiPath + 'js/integrity', 'GET', {url})
+    return request(apiPath + 'js/integrity', 'GET', { url })
   },
 
   login(body) {

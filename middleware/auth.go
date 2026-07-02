@@ -89,6 +89,13 @@ func OpenAuth() func(c *gin.Context) {
 			return
 		}
 		auth := strings.Replace(c.Request.Header.Get("Authorization"), "Bearer ", "", 1)
+		if auth == "" {
+			c.AbortWithStatusJSON(http.StatusForbidden, gin.H{
+				"success": false,
+				"code":    403,
+			})
+			return
+		}
 		// Authorization header check
 		token, _ := jwt.Parse(auth, func(token *jwt.Token) (interface{}, error) {
 			if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {

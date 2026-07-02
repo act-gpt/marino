@@ -21,6 +21,7 @@ type Message struct {
 	Answer           string         `json:"answer"`
 	Model            string         `json:"model"`
 	Ip               string         `json:"ip"`
+	Flag             bool           `json:"flag" gorm:"default:false"`
 	Like             int            `json:"like" gorm:"type:int;default:0"`
 	Dislike          int            `json:"dislike" gorm:"type:int;default:0"`
 	CostTime         float64        `json:"cost_time" gorm:"type:float"`
@@ -76,5 +77,10 @@ func GetMessagesByBot(id string, startIdx int, len int, count bool) (messages []
 
 func LikeMessage(id string, like int) (int64, error) {
 	result := DB.Model(Message{}).Where("id = ?", id).Update("like", like)
+	return result.RowsAffected, result.Error
+}
+
+func FlagMessage(id string, flag bool) (int64, error) {
+	result := DB.Model(Message{}).Where("id = ?", id).Update("flag", flag)
 	return result.RowsAffected, result.Error
 }

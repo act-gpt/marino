@@ -1,26 +1,28 @@
 const { createProxyMiddleware } = require('http-proxy-middleware')
 const fs = require('fs')
-const axios = require("axios")
+const axios = require('axios')
 module.exports = function (app) {
   const APP_HOST = process.env.APP_HOST
-  const url = `http://${APP_HOST ? APP_HOST : '127.0.0.1'}:6789/`
-  app.use((req, res, next) =>{
-      res.set('X-Server', 'web')
-      next()
-  });
+  const url = `http://${APP_HOST ? APP_HOST : '127.0.0.1'}:9000/`
+  app.use((req, res, next) => {
+    res.set('X-Server', 'web')
+    next()
+  })
 
-  app.use(`/chat/:id`, (req, res) =>{
+  app.use(`/chat/:id`, (req, res) => {
     res.set('Content-Type', 'text/html')
-    const url = "http://0.0.0.0:" + (process.env.PORT || 3000) + "/chat.html"
+    const url = 'http://0.0.0.0:' + (process.env.PORT || 3000) + '/chat.html'
     axios({
       method: 'get',
       url,
       responseType: 'stream'
-    }).then(function (response) {
-      response.data.pipe(res)
-    }).catch((e) => {
-      res.send(Buffer.from("Server error" + e))
     })
+      .then(function (response) {
+        response.data.pipe(res)
+      })
+      .catch((e) => {
+        res.send(Buffer.from('Server error' + e))
+      })
   })
   app.use(
     '/api',
@@ -51,7 +53,7 @@ module.exports = function (app) {
     '/open',
     createProxyMiddleware({
       target: url,
-      changeOrigin: true,
+      changeOrigin: true
     })
   )
   app.use(

@@ -47,6 +47,10 @@ func NewApiClient() *Api {
 }
 
 func (api Api) Embedding(text []string, bot model.BotSetting) ([]types.Embedding, error) {
+	var embeddings []types.Embedding
+	if len(text) == 0 {
+		return embeddings, nil
+	}
 	setting, err := bot.MergeSetting(api.Config)
 	if err != nil {
 		return nil, err
@@ -55,8 +59,14 @@ func (api Api) Embedding(text []string, bot model.BotSetting) ([]types.Embedding
 	if err != nil {
 		return nil, err
 	}
-	var embeddings []types.Embedding
+
+	if len(res.Data) != len(text) {
+		return nil, fmt.Errorf("embedding response count mismatch: expected %d, got %d", len(text), len(res.Data))
+	}
 	for _, data := range res.Data {
+		if len(data.Embedding) == 0 {
+			return nil, fmt.Errorf("embedding response contains empty vector")
+		}
 		embeddings = append(embeddings, data.Embedding)
 	}
 	return embeddings, nil
@@ -88,9 +98,13 @@ func indexOf(document []types.Document, text string) int {
 	return -1
 }
 
-func (api Api) Reranker(query string, document []types.Document, bot model.BotSetting) ([]types.Document, error) {
+func (api Api) Reranker(query string, documents []types.Document, bot model.BotSetting) ([]types.Document, error) {
 	var docs []string
-	for _, doc := range document {
+	var items []types.Document
+	if len(documents) == 0 {
+		return items, nil
+	}
+	for _, doc := range documents {
 		docs = append(docs, doc.Text)
 	}
 	model := api.Config.Reranker.Model
@@ -103,23 +117,21 @@ func (api Api) Reranker(query string, document []types.Document, bot model.BotSe
 	if err != nil {
 		return nil, err
 	}
-	var items []types.Document
 	data := res.Data
-
 	for i, item := range data.Documents {
-		n := indexOf(document, item)
+		n := indexOf(documents, item)
 		// 小于 0.35 质量已经很低了，过滤掉
 		doc := types.Document{
 			Text:  item,
 			Score: data.Scores[i],
 		}
 		if n > -1 {
-			doc.ID = document[n].ID
-			doc.DocumentID = document[n].DocumentID
-			doc.Metadata = document[n].Metadata
+			doc.ID = documents[n].ID
+			doc.DocumentID = documents[n].DocumentID
+			doc.Metadata = documents[n].Metadata
 		}
-		fmt.Println("rerank", doc.ID, doc.Score)
-		if doc.Score < 0.35 {
+		//fmt.Println("rerank", doc.ID, doc.Score)
+		if model == "act-embed-001" && doc.Score < 0.35 {
 			continue
 		}
 		items = append(items, doc)
@@ -180,18 +192,36 @@ func (api Api) Insert(document types.Document, update bool, bot model.BotSetting
 	if err != nil {
 		return err
 	}
+	logx.Info(fmt.Sprintf("Chunk type %s", setting.Chunk.Type))
 	switch setting.Chunk.Type {
 	case "markdown":
-		processor := splitters.MdPreprocessor(&splitters.PreprocessorConfig{})
+		processor := splitters.MdPreprocessor(&splitters.PreprocessorConfig{
+			MaxTokens: setting.Chunk.MaxTokens,
+			MinTokens: setting.Chunk.MinTokens,
+			Overlap:   setting.Chunk.Overlap,
+		})
+		chunks, codes, err = processor.Preprocess(document, bot)
+	case "semantic":
+		processor := splitters.SemanticPreprocessor(&splitters.PreprocessorConfig{
+			MaxTokens: setting.Chunk.MaxTokens,
+			MinTokens: setting.Chunk.MinTokens,
+			Overlap:   setting.Chunk.Overlap,
+		})
 		chunks, codes, err = processor.Preprocess(document, bot)
 	default:
-		processor := splitters.SemanticPreprocessor(&splitters.PreprocessorConfig{})
+		processor := splitters.TextPreprocessor(&splitters.PreprocessorConfig{
+			MaxTokens: setting.Chunk.MaxTokens,
+			MinTokens: setting.Chunk.MinTokens,
+			Overlap:   setting.Chunk.Overlap,
+		})
 		chunks, codes, err = processor.Preprocess(document, bot)
 	}
+
 	if err != nil {
+		logx.Error(fmt.Sprintf("Processor error: %s", err.Error()))
 		return err
 	}
-
+	logx.Info(fmt.Sprintf("Chunks length: %d", len(chunks)))
 	if update {
 		err = model.DeleteSegments([]string{document.ID})
 		if err != nil {
@@ -200,6 +230,7 @@ func (api Api) Insert(document types.Document, update bool, bot model.BotSetting
 	}
 
 	num := 0
+	i := 1
 	for batch := range genBatches(chunks, EMBEDDINGS_BATCH_SIZE) {
 		var list []string
 		num += len(batch)
@@ -212,23 +243,23 @@ func (api Api) Insert(document types.Document, update bool, bot model.BotSetting
 		if err != nil {
 			return err
 		}
-		for i, embedding := range embeddings {
-			data := batch[i]
+		for m, embedding := range embeddings {
+			data := batch[m]
 			segument := &model.Segment{
 				Id:          data.ID,
 				KnowledgeId: data.DocumentID,
 				Embedding:   embedding,
-				Index:       i + 1,
+				Index:       i,
 				// replace code into chunck
 				Text:   replaceCode(data.Text, codes),
 				Corpus: data.Metadata.Corpus,
 				Source: data.Metadata.Source,
 				Url:    data.Metadata.Url,
 			}
+			i++
 			err = segument.Insert()
 			if err != nil {
-				fmt.Println(err)
-				return err
+				logx.Error(fmt.Sprintf("Insert %s's segment failed: %s", document.ID, err.Error()))
 			}
 		}
 	}
@@ -248,6 +279,9 @@ func (api Api) Query(question string, bot model.BotSetting) ([]model.Segment, er
 	embeddings, err := api.Embedding([]string{question}, bot)
 	if err != nil {
 		return []model.Segment{}, err
+	}
+	if len(embeddings) == 0 {
+		return []model.Segment{}, fmt.Errorf("no embeddings returned for query")
 	}
 	num := bot.Retrieval
 	if num == 0 {

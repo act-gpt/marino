@@ -1,11 +1,16 @@
 package main
 
 import (
+	"context"
 	"fmt"
+	"log"
+	"net/http"
 	"os"
+	"os/signal"
 	"runtime"
 	"strconv"
 	"strings"
+	"syscall"
 	"time"
 
 	"github.com/act-gpt/marino/api"
@@ -15,7 +20,7 @@ import (
 	"github.com/act-gpt/marino/config/system"
 	"github.com/act-gpt/marino/middleware"
 	"github.com/act-gpt/marino/model"
-	"github.com/act-gpt/marino/router"
+	rt "github.com/act-gpt/marino/router"
 	"github.com/act-gpt/marino/web"
 
 	"github.com/gin-contrib/sessions"
@@ -27,6 +32,38 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/proc"
 )
+
+var server *http.Server
+
+func handleDebug() {
+	c := make(chan os.Signal, 1) // channel to wait os.Signal
+	signal.Notify(c, syscall.SIGHUP)
+	go func() { // go routine to do not block other requests on the application
+		<-c
+		system.Config.ShowPrompt = !system.Config.ShowPrompt
+		fmt.Println("Handel signal, ShowPrompt:", system.Config.ShowPrompt)
+	}()
+}
+
+func handleShutdown() {
+	quit := make(chan os.Signal, 1)
+	// kill (no param) default send syscall.SIGTERM
+	// kill -2 is syscall.SIGINT
+	// kill -9 is syscall.SIGKILL but can't be catch, so don't need add it
+	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
+	<-quit
+	log.Println("Shutting down server...")
+
+	// The context is used to inform the server it has 5 seconds to finish
+	// the request it is currently handling
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+	if err := server.Shutdown(ctx); err != nil {
+		log.Fatal("Server forced to shutdown: ", err)
+	}
+
+	log.Println("Server exiting")
+}
 
 func main() {
 
@@ -78,27 +115,32 @@ func main() {
 	})
 
 	// Initialize HTTP server
-	server := gin.Default()
-	server.Use(middleware.CORS())
-	server.Use(stats.RequestStats())
-	server.MaxMultipartMemory = 8 << 20 // 8 MiB
+	router := gin.Default()
+	router.Use(middleware.CORS())
+	router.Use(stats.RequestStats())
+	router.MaxMultipartMemory = 8 << 20 // 8 MiB
 
 	if conf.Initialled.Redis {
 		r.Init()
 		opt := r.ParseRedisOption()
 		store, _ := redis.NewStore(opt.MinIdleConns, opt.Network, opt.Addr, opt.Password, []byte(conf.SessionSecret))
-		server.Use(sessions.Sessions("SESSION", store))
+		router.Use(sessions.Sessions("SESSION", store))
 	} else {
 		store := cookie.NewStore([]byte(conf.SessionSecret))
-		server.Use(sessions.Sessions("SESSION", store))
+		router.Use(sessions.Sessions("SESSION", store))
 	}
 
-	router.SetRouter(server, web.BuildFS)
+	rt.SetRouter(router, web.BuildFS)
 
 	var host = conf.Host
 	var port = os.Getenv("PORT")
 	if port == "" {
 		port = strconv.Itoa(conf.Port)
+	}
+
+	server = &http.Server{
+		Addr:    host + ":" + port,
+		Handler: router,
 	}
 
 	go func() {
@@ -111,10 +153,21 @@ func main() {
 			common.Open(url)
 		}
 	}()
-	fmt.Println("\033[32;1;4mServer start listening at " + host + ":" + port + "\033[0m")
-	err := server.Run(host + ":" + port)
-	if err != nil {
-		fmt.Println("\033[31;1;4mfailed to start HTTP server: " + err.Error() + "\033[0m")
-	}
+	go func() {
+		fmt.Println("\033[32;1;4mServer start listening at " + host + ":" + port + "\033[0m")
+		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+			log.Fatalf("listen: %s\n", err)
+		} else {
+			fmt.Println("\033[31;1;4m Started \033[0m")
+		}
+	}()
+	//handleDebug()
+	handleShutdown()
 
+	/*
+		err := server.Run(host + ":" + port)
+		if err != nil {
+			fmt.Println("\033[31;1;4mfailed to start HTTP server: " + err.Error() + "\033[0m")
+		}
+	*/
 }

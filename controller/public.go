@@ -38,11 +38,11 @@ type QueryRequest struct {
 }
 
 type SegemntResponse struct {
-	Id    string  `json:"id"`
-	Doc   string  `json:"doc"`
-	Score float64 `json:"score"`
-	Text  string  `json:"text"`
-	Sha   string  `json:"sha"`
+	Id       string         `json:"id"`
+	Doc      string         `json:"doc"`
+	Score    float64        `json:"score"`
+	Text     string         `json:"text"`
+	Metadata types.Metadata `json:"sha"`
 }
 
 type ResultResponse struct {
@@ -194,6 +194,40 @@ func Like(c *gin.Context) {
 	})
 }
 
+func Flag(c *gin.Context) {
+
+	type Flag struct {
+		Flag bool `json:"flag"`
+	}
+	req := Flag{}
+	err := c.ShouldBindJSON(&req)
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"success": false,
+			"code":    400,
+			"message": err.Error(),
+		})
+		return
+	}
+
+	num, err := model.FlagMessage(c.Param("id"), req.Flag)
+
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"success": false,
+			"code":    500,
+			"message": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"success": true,
+		"message": "",
+		"data":    num,
+	})
+}
+
 func ValidateQuery(c *gin.Context) (*model.Bot, *model.Organization, QueryRequest, error) {
 
 	req := QueryRequest{}
@@ -245,8 +279,17 @@ func ValidateQuery(c *gin.Context) (*model.Bot, *model.Organization, QueryReques
 	}
 	org := _org.(*model.Organization)
 
-	if system.Config.Moderation.CheckContent {
-		code, err := moderation.Request(req.Prompt, req.User, bot.Id)
+	setting, err := model.GetSetting(bot.Id, "")
+	if err != nil {
+		responseError(c, ErrorResponse{
+			Code:       404,
+			Message:    "not found",
+			StatusCode: 404,
+		})
+		return &model.Bot{}, &model.Organization{}, req, err
+	}
+	if system.Config.Moderation.CheckContent || setting.Moderation {
+		code, err := moderation.Request(req.Prompt, bot.Id, req.User)
 		if err != nil || code != 200 {
 			var block = config.BlockedMessages[code]
 			responseError(c, ErrorResponse{
@@ -367,7 +410,6 @@ func Query(c *gin.Context) {
 			}
 			docs = append(docs, doc)
 		}
-
 		if setting.Rerank {
 			docs, err = api.Client.Reranker(req.Prompt, docs, setting)
 			if err != nil {
@@ -381,13 +423,13 @@ func Query(c *gin.Context) {
 		}
 
 		messages = api.Client.BuildQuery(req.Prompt, docs, msgs, setting)
-		for _, val := range segments {
+		for _, val := range docs {
 			source = append(source, SegemntResponse{
-				Id:    val.Id,
-				Doc:   val.KnowledgeId,
-				Score: val.Score,
-				Text:  val.Text,
-				Sha:   val.Sha,
+				Id:       val.ID,
+				Doc:      val.DocumentID,
+				Score:    val.Score,
+				Text:     val.Text,
+				Metadata: val.Metadata,
 			})
 		}
 	}
@@ -433,9 +475,13 @@ func Query(c *gin.Context) {
 
 	ch := make(chan any)
 	llmStart := time.Now()
+
 	go func() {
 		defer close(ch)
 		start := false
+		if system.Config.ShowPrompt {
+			fmt.Println(messages)
+		}
 		if !isStream {
 			if err := llm.Completion(c.Request.Context(), messages, func(res types.ChatCompletionResponse) {
 				if !start {
@@ -454,8 +500,12 @@ func Query(c *gin.Context) {
 					msg.LLMFirstTime = time.Since(llmStart).Seconds()
 				}
 				ch <- res
+				if system.Config.ShowPrompt {
+					fmt.Printf("%v\n", res)
+				}
 			}); err != nil {
 				msg.Status = "error"
+				fmt.Printf("%v\n", err)
 				ch <- err
 			}
 		}

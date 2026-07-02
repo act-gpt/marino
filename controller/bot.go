@@ -166,10 +166,11 @@ func CreateBot(c *gin.Context) {
 	bot.Setting = conf.Setting
 	bot.Setting["corpus"] = orgId + ":" + bot.Id
 
-	// TODO: setting
-	model := config.GetAvailableModel()
+	if bot.Setting["model"] == "" {
+		model := config.GetAvailableModel()
+		bot.Setting["model"] = model.Name
+	}
 
-	bot.Setting["model"] = model.Name
 	err = bot.Insert()
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{

@@ -212,7 +212,7 @@ func (c *Client) buildConfig() openai.ClientConfig {
 			config.APIVersion = conf.APIVersion
 		}
 	}
-	fmt.Println("config", config)
+	//fmt.Println("config", config)
 	return config
 }
 
